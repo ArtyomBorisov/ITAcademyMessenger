@@ -1,0 +1,30 @@
+controllers.web.filters:
+    SecurityFilter - фильтр для URL-ов /chats и /message
+
+controllers.web.servlets:
+    ChatsServlet (URL = "/chats") - сервлет для отправленных сообщений
+    ExitServlet (URL = "/exit") - сервлет для выхода пользователя из аккаунта
+    MainPageServlet (URL = "/mainPage") - сервлет для главной страницы
+    MessageServlet (URL = "/message") - сервлет для отправки сообщений
+    SignInServlet (URL = "/signIn") - сервлет для входа пользователя по логину/паролю
+    SignUpServlet (URL = "/signUp") - сервлет для регистрации
+
+service.api:
+    IStorageMessageService - интерфейс для работы с сообщением (Message)
+    IStorageUserService - интерфейс для работы с пользователем (User)
+
+service.dto:
+    Message - сообщение
+    SavedMessage - сохраненное сообщение с полем времени сохранения
+    User - пользователь
+
+service:
+    StorageMessageService реализует интерфейс IStorageMessageService
+    StorageUserService реализует интерфейс IStorageUserService
+
+webapp.views:
+    chats.jsp - страница для отображения отправленных сообщений
+    mainPage.jsp - страница для отображения главной страницы
+    message.jsp - страница для отображения формы отправки сообщения (GET) и отправки сообщения (POST)
+    signIn.jsp - страница для отображения формы для входа
+    signUp.jsp - страница для отображения формы для регистрации
