@@ -34,4 +34,10 @@ public interface IStorageUserService {
      *         false - если аутентификация не пройдена
      */
     boolean authenticationUser(String login, String password);
+
+    /**
+     * метод возращает количество зарегестрированных пользователей
+     * @return количество пользователей
+     */
+    int getCountUsers();
 }

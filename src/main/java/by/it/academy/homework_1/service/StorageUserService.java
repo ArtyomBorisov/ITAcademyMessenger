@@ -42,6 +42,11 @@ public class StorageUserService implements IStorageUserService {
         return false;
     }
 
+    @Override
+    public int getCountUsers() {
+        return storageUsers.size();
+    }
+
     public static IStorageUserService getInstance() {
         return instance;
     }

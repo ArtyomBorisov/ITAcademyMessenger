@@ -35,6 +35,15 @@ public class StorageMessageService implements IStorageMessageService {
         storageMessages.get(loginUserTo).add(new SavedMessage(LocalDateTime.now(), message));
     }
 
+    @Override
+    public int getCountMessages() {
+        int res = 0;
+        for (List<SavedMessage> value : storageMessages.values()) {
+            res += value.size();
+        }
+        return res;
+    }
+
     public static StorageMessageService getInstance() {
         return instance;
     }

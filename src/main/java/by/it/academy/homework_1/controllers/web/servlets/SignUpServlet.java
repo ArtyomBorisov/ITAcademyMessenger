@@ -43,8 +43,7 @@ public class SignUpServlet extends HttpServlet {
         String name = req.getParameter("name");
         String birthdayRaw = req.getParameter("birthday");
 
-        if (login == null || password == null ||
-                name == null || birthdayRaw == null) {
+        if (login.isEmpty() || password.isEmpty() || name.isEmpty() || birthdayRaw.isEmpty()) {
             session.setAttribute(INFORM_KEY, "Не передан какой-либо параметр.");
             req.getRequestDispatcher(URL_FORWARD_1_KEY).forward(req, resp);
             return;

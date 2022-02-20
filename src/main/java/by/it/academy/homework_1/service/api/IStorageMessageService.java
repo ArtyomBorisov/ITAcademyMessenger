@@ -20,4 +20,10 @@ public interface IStorageMessageService {
      * @param message сообщение для сохранения
      */
     void addToStorage(Message message);
+
+    /**
+     * метод возращает количество всех отправленных сообщений
+     * @return количество отправленных сообщений
+     */
+    int getCountMessages();
 }

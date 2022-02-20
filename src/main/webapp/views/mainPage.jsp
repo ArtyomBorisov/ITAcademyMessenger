@@ -23,11 +23,17 @@
                 <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/chats';"
                     value="Просмотреть сообщения"></p>
 
+                <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/statistics';"
+                                    value="Статистика"></p>
+
                 <form action="/Homework_Mk-JD2-88-22-0.0.0/exit">
                     <p><input type="submit" value="Выйти"></p>
                 </form>
             </c:when>
             <c:otherwise>
+                <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/statistics';"
+                    value="Статистика"></p>
+
                 <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/signUp';"
                     value="Зарегистрироваться"></p>
 

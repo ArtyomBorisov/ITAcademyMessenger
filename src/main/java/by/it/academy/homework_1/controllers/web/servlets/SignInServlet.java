@@ -39,6 +39,7 @@ public class SignInServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         if (!storage.authenticationUser(login, password)) {
+            resp.sendError(401);
             session.setAttribute(INFORM_KEY, "Логин и(или) пароль неверные(ый)");
             req.getRequestDispatcher(URL_FORWARD_1_KEY).forward(req, resp);
         } else {
