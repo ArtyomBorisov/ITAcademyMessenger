@@ -5,7 +5,7 @@
     <display-name>Homework_Mk_JD2_88_22</display-name>
 
     <listener>
-        <listener-class>by.it.academy.homework_1.controllers.web.listeners.SessionListener</listener-class>
+        <listener-class>by.it.academy.homework_1.controller.web.listeners.SessionListener</listener-class>
     </listener>
 
 </web-app>

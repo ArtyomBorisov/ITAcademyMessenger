@@ -1,4 +1,4 @@
-package by.it.academy.homework_1.controllers.web.filters;
+package by.it.academy.homework_1.controller.web.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -19,7 +19,7 @@ public class SecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String contextPath = req.getContextPath();
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         if((session != null) && (session.getAttribute("user") != null)) {
             chain.doFilter(request, response);
         } else {

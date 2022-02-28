@@ -1,7 +1,9 @@
-package by.it.academy.homework_1.controllers.web.servlets;
+package by.it.academy.homework_1.controller.web.servlets;
 
-import by.it.academy.homework_1.service.StorageUserService;
-import by.it.academy.homework_1.service.api.IStorageUserService;
+import by.it.academy.homework_1.storage.StorageUser;
+import by.it.academy.homework_1.storage.api.IStorageUser;
+import by.it.academy.homework_1.view.AuthService;
+import by.it.academy.homework_1.view.api.IAuthService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,14 +16,14 @@ import java.io.IOException;
 @WebServlet(name = "SignInServlet", urlPatterns = "/signIn")
 public class SignInServlet extends HttpServlet {
 
-    private final IStorageUserService storage;
+    private final IAuthService authService;
     private final String USER_KEY = "user";
     private final String INFORM_KEY = "inf";
     private final String URL_FORWARD_1_KEY = "/views/signIn.jsp";
     private final String URL_FORWARD_2_KEY = "/views/mainPage.jsp";
 
     public SignInServlet() {
-        this.storage = StorageUserService.getInstance();
+        this.authService = AuthService.getInstance();
     }
 
     @Override
@@ -38,7 +40,7 @@ public class SignInServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (!storage.authenticationUser(login, password)) {
+        if (!authService.authentication(login, password)) {
             resp.sendError(401);
             session.setAttribute(INFORM_KEY, "Логин и(или) пароль неверные(ый)");
             req.getRequestDispatcher(URL_FORWARD_1_KEY).forward(req, resp);

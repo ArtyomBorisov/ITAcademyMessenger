@@ -1,29 +1,28 @@
-package by.it.academy.homework_1.service.api;
+package by.it.academy.homework_1.storage.api;
 
-import by.it.academy.homework_1.service.dto.Message;
-import by.it.academy.homework_1.service.dto.SavedMessage;
+import by.it.academy.homework_1.model.Message;
 
 import java.util.List;
 
-public interface IStorageMessageService {
+public interface IStorageMessage {
 
     /**
      * метод возращает список сообщений пользователю по его логину
      * @param loginUser - логин
-     * @return List<SavedMessage> - список сообщений
+     * @return List<Message> - список сообщений
      *         null - если сообщений пользователю нет
      */
-    List<SavedMessage> getMessagesToUser(String loginUser);
+    List<Message> get(String loginUser);
 
     /**
      * метод сохраняет сообщение в хранилище
      * @param message сообщение для сохранения
      */
-    void addToStorage(Message message);
+    void add(Message message);
 
     /**
      * метод возращает количество всех отправленных сообщений
      * @return количество отправленных сообщений
      */
-    int getCountMessages();
+    int getCount();
 }

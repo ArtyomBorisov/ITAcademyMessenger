@@ -1,8 +1,8 @@
-package by.it.academy.homework_1.controllers.web.servlets;
+package by.it.academy.homework_1.controller.web.servlets;
 
-import by.it.academy.homework_1.service.StorageUserService;
-import by.it.academy.homework_1.service.api.IStorageUserService;
-import by.it.academy.homework_1.service.dto.User;
+import by.it.academy.homework_1.model.User;
+import by.it.academy.homework_1.view.UserService;
+import by.it.academy.homework_1.view.api.IUserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,19 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
-//регистрация
 @WebServlet(name = "SignUpServlet", urlPatterns = "/signUp")
 public class SignUpServlet extends HttpServlet {
 
-    private final IStorageUserService storage;
+    private final IUserService userService;
     private final String USER_KEY = "user";
     private final String INFORM_KEY = "inf";
     private final String URL_FORWARD_1_KEY = "/views/signUp.jsp";
     private final String URL_FORWARD_2_KEY = "/views/mainPage.jsp";
 
     public SignUpServlet() {
-        this.storage = StorageUserService.getInstance();
+        this.userService = UserService.getInstance();
     }
 
     @Override
@@ -42,26 +43,22 @@ public class SignUpServlet extends HttpServlet {
         String password = req.getParameter("password");
         String name = req.getParameter("name");
         String birthdayRaw = req.getParameter("birthday");
-
-        if (login.isEmpty() || password.isEmpty() || name.isEmpty() || birthdayRaw.isEmpty()) {
-            session.setAttribute(INFORM_KEY, "Не передан какой-либо параметр.");
-            req.getRequestDispatcher(URL_FORWARD_1_KEY).forward(req, resp);
-            return;
+        LocalDate birthday = null;
+        try {
+            birthday = LocalDate.parse(birthdayRaw);
+        } catch (DateTimeParseException e) {
         }
 
-        if (storage.isLoginExist(login)) {
-            session.setAttribute(INFORM_KEY, "Такой логин занят:(");
+        User user = new User(login, password, name, birthday);
+
+        try {
+            userService.signUp(user);
+            req.getSession().setAttribute(USER_KEY, login);
+            session.setAttribute(INFORM_KEY, "Аккаунт успешно создан.");
+            req.getRequestDispatcher(URL_FORWARD_2_KEY).forward(req, resp);
+        } catch (IllegalArgumentException e){
+            session.setAttribute(INFORM_KEY, e.getMessage());
             req.getRequestDispatcher(URL_FORWARD_1_KEY).forward(req, resp);
-            return;
         }
-
-        LocalDate birthday = LocalDate.parse(birthdayRaw);
-
-        storage.addUserToStorage(new User(login, password, name, birthday));
-
-        session.setAttribute(USER_KEY, login);
-        session.setAttribute(INFORM_KEY, "Аккаунт успешно создан.");
-
-        req.getRequestDispatcher(URL_FORWARD_2_KEY).forward(req, resp);
     }
 }

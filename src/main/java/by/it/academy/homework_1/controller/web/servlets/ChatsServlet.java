@@ -1,8 +1,10 @@
-package by.it.academy.homework_1.controllers.web.servlets;
+package by.it.academy.homework_1.controller.web.servlets;
 
-import by.it.academy.homework_1.service.StorageMessageService;
-import by.it.academy.homework_1.service.api.IStorageMessageService;
-import by.it.academy.homework_1.service.dto.SavedMessage;
+import by.it.academy.homework_1.model.Message;
+import by.it.academy.homework_1.storage.StorageMessage;
+import by.it.academy.homework_1.storage.api.IStorageMessage;
+import by.it.academy.homework_1.view.MessageService;
+import by.it.academy.homework_1.view.api.IMessageService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,13 +18,13 @@ import java.util.List;
 @WebServlet(name = "ChatsServlet", urlPatterns = "/chats")
 public class ChatsServlet extends HttpServlet {
 
-    private final IStorageMessageService storage;
+    private final IMessageService messageService;
     private final String USER_KEY = "user";
     private final String MESSAGES_KEY = "messages";
     private final String URL_FORWARD_KEY = "/views/chats.jsp";
 
     public ChatsServlet() {
-        this.storage = StorageMessageService.getInstance();
+        this.messageService = MessageService.getInstance();
     }
 
     @Override
@@ -33,7 +35,7 @@ public class ChatsServlet extends HttpServlet {
 
         String loginTo = (String) session.getAttribute(USER_KEY);
 
-        List<SavedMessage> messagesToUser = storage.getMessagesToUser(loginTo);
+        List<Message> messagesToUser = this.messageService.get(loginTo);
 
         session.setAttribute(MESSAGES_KEY, messagesToUser);
 

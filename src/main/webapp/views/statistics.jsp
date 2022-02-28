@@ -12,20 +12,15 @@
     <body>
          <h3>Статистика</h3>
          <table border="1">
-             <tr>
-                 <th>Количество активных сессий</th>
-                 <th>${sessionScope.counter}</th>
-             </tr>
-             <tr>
-                 <th>Количество зарегистрированных пользователей</th>
-                 <th>${sessionScope.users}</th>
-             </tr>
-             <tr>
-                 <th>Количество отправленных сообщений</th>
-                 <th>${sessionScope.messages}</th>
-             </tr>
+            <tbody>
+                <c:forEach items="${requestScope.stats}" var="stat">
+                    <tr>
+                        <td>${stat.key}</td>
+                        <td>${stat.value}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
          </table>
-
          <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/mainPage';"
             value="На главную"></p>
     </body>
