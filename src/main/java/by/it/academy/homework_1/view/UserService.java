@@ -1,6 +1,7 @@
 package by.it.academy.homework_1.view;
 
 import by.it.academy.homework_1.model.User;
+import by.it.academy.homework_1.storage.StorageSQLUser;
 import by.it.academy.homework_1.storage.StorageUser;
 import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.view.api.IMessageService;
@@ -10,12 +11,12 @@ import java.time.LocalDateTime;
 
 public class UserService implements IUserService {
 
-    private final static UserService instance = new UserService();
+    private static final UserService instance = new UserService();
     private final IStorageUser storageUser;
     private final IMessageService messageService;
 
-    public UserService() {
-        this.storageUser = StorageUser.getInstance();
+    private UserService() {
+        this.storageUser = StorageSQLUser.getInstance();
         this.messageService = MessageService.getInstance();
     }
 

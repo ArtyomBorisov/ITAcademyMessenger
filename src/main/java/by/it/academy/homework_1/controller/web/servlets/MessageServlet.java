@@ -1,7 +1,5 @@
 package by.it.academy.homework_1.controller.web.servlets;
 
-import by.it.academy.homework_1.storage.StorageMessage;
-import by.it.academy.homework_1.storage.api.IStorageMessage;
 import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.view.MessageService;
 import by.it.academy.homework_1.view.api.IMessageService;

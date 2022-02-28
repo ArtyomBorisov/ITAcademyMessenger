@@ -1,7 +1,5 @@
 package by.it.academy.homework_1.controller.web.servlets;
 
-import by.it.academy.homework_1.storage.StorageUser;
-import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.view.AuthService;
 import by.it.academy.homework_1.view.api.IAuthService;
 
