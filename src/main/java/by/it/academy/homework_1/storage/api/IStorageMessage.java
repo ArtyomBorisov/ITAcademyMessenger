@@ -24,5 +24,5 @@ public interface IStorageMessage {
      * метод возращает количество всех отправленных сообщений
      * @return количество отправленных сообщений
      */
-    int getCount();
+    long getCount();
 }

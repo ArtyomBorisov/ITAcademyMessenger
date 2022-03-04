@@ -34,8 +34,8 @@ public class StorageMessage implements IStorageMessage {
     }
 
     @Override
-    public int getCount() {
-        int res = 0;
+    public long getCount() {
+        long res = 0;
         for (List<Message> value : storageMessages.values()) {
             res += value.size();
         }

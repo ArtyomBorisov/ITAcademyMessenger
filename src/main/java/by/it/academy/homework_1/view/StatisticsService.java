@@ -34,7 +34,7 @@ public class StatisticsService implements IStatisticsService {
     @Override
     public Map<String, Object> getStats() {
         Map<String, Object> stats = new HashMap<>();
-        stats.put("Количество зарегестрированных пользователей", this.userService.getCount());
+        stats.put("Количество зарегистрированных пользователей", this.userService.getCount());
         stats.put("Количество всех отправленных сообщений", this.messageService.getCount());
         stats.put("Количество активных сессий", this.getSessionCount());
         return stats;

@@ -22,5 +22,5 @@ public interface IStorageUser {
      * метод возращает количество зарегестрированных пользователей
      * @return количество пользователей
      */
-    int getCount();
+    long getCount();
 }

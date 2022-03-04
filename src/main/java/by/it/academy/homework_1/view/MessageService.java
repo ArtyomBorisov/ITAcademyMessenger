@@ -2,19 +2,19 @@ package by.it.academy.homework_1.view;
 
 import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.model.User;
-import by.it.academy.homework_1.storage.StorageMessage;
+import by.it.academy.homework_1.storage.DBStorageMessage;
 import by.it.academy.homework_1.storage.api.IStorageMessage;
 import by.it.academy.homework_1.view.api.IMessageService;
 
 import java.util.List;
 
 public class MessageService implements IMessageService {
-    private final static MessageService instance = new MessageService();
+    private static final MessageService instance = new MessageService();
 
     private final IStorageMessage storageMessage;
 
     private MessageService() {
-        this.storageMessage = StorageMessage.getInstance();
+        this.storageMessage = DBStorageMessage.getInstance();
     }
 
     @Override

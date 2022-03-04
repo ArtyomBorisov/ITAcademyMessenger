@@ -30,7 +30,7 @@ public class StorageUser implements IStorageUser {
     }
 
     @Override
-    public int getCount() {
+    public long getCount() {
         return storageUsers.size();
     }
 

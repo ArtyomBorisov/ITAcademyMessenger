@@ -1,8 +1,7 @@
 package by.it.academy.homework_1.view;
 
 import by.it.academy.homework_1.model.User;
-import by.it.academy.homework_1.storage.StorageSQLUser;
-import by.it.academy.homework_1.storage.StorageUser;
+import by.it.academy.homework_1.storage.DBStorageUser;
 import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.view.api.IMessageService;
 import by.it.academy.homework_1.view.api.IUserService;
@@ -16,13 +15,14 @@ public class UserService implements IUserService {
     private final IMessageService messageService;
 
     private UserService() {
-        this.storageUser = StorageSQLUser.getInstance();
+        this.storageUser = DBStorageUser.getInstance();
         this.messageService = MessageService.getInstance();
     }
 
     @Override
     public void signUp(User user) {
         this.validationForSignUp(user);
+        
         user.setRegistration(LocalDateTime.now());
         this.storageUser.add(user);
     }
