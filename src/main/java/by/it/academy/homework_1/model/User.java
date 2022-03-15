@@ -10,11 +10,22 @@ import java.time.LocalDateTime;
  * birthday - дата рождения
  */
 public class User {
-    private final String login;
+    private String login;
     private String password;
     private String name;
     private LocalDate birthday;
     private LocalDateTime registration;
+
+    public User() {
+    }
+
+    public User(String login, String password, String name, LocalDate birthday, LocalDateTime registration) {
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.birthday = birthday;
+        this.registration = registration;
+    }
 
     public User(String login, String password, String name, LocalDate birthday) {
         this.login = login;
@@ -45,5 +56,49 @@ public class User {
 
     public LocalDateTime getRegistration() {
         return registration;
+    }
+
+    public static class Builder{
+        private String login;
+        private String password;
+        private String name;
+        private LocalDate birthday;
+        private LocalDateTime registration;
+
+        private Builder() {
+        }
+
+        public Builder setLogin(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setBirthday(LocalDate birthday) {
+            this.birthday = birthday;
+            return this;
+        }
+
+        public Builder setRegistration(LocalDateTime registration) {
+            this.registration = registration;
+            return this;
+        }
+
+        public static Builder createBuilder(){
+            return new Builder();
+        }
+
+        public User build(){
+            return new User(login, password, name, birthday, registration);
+        }
     }
 }

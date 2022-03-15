@@ -10,11 +10,11 @@
         <title>Регистрация</title>
     </head>
     <body>
-        <form action="/Homework_Mk-JD2-88-22-0.0.0/signUp" method="post">
+        <form action="/Messenger/signUp" method="post">
             <c:choose>
                 <c:when test="${user != null}">
                     Вы уже зарегистрированы!
-                    <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/mainPage';"
+                    <p><input type="button" onclick="location.href='/Messenger/mainPage';"
                         value="На главную"></p>
                 </c:when>
                 <c:otherwise>
@@ -28,7 +28,7 @@
                     <p>ФИО <input type="text" name="name"  placeholder="ФИО" required></p>
                     <p>Дата рождения <input type="date" name="birthday"  placeholder="Дата рождения" required></p>
                     <p><input type="submit"  value="Зарегистрироваться"></p>
-                    <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/mainPage';"
+                    <p><input type="button" onclick="location.href='/Messenger/mainPage';"
                         value="На главную"></p>
                 </c:otherwise>
             </c:choose>

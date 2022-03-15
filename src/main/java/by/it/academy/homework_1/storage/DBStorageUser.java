@@ -1,8 +1,11 @@
 package by.it.academy.homework_1.storage;
 
+import by.it.academy.homework_1.model.AuditUser;
 import by.it.academy.homework_1.model.User;
+import by.it.academy.homework_1.storage.api.IAuditUserStorage;
 import by.it.academy.homework_1.storage.api.IStorageUser;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,12 +15,12 @@ import java.time.format.DateTimeParseException;
 public class DBStorageUser implements IStorageUser {
 
     private static final DBStorageUser instance = new DBStorageUser();
-    private final String URL = "jdbc:postgresql://localhost:5433/messenger?ApplicationName=Messenger";
-    private final String USER = "postgres";
-    private final String PASSWORD = "postgres";
+    private final DataSource dataSource;
+    private final IAuditUserStorage auditUserStorage;
 
     private DBStorageUser() {
-        DBInitializer.getInstance();
+        this.dataSource = DBInitializer.getInstance().getDataSource();
+        this.auditUserStorage = DBAuditUserStorage.getInstance();
     }
 
     @Override
@@ -25,7 +28,7 @@ public class DBStorageUser implements IStorageUser {
         User user = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        try (Connection conn = DriverManager.getConnection(URL,USER, PASSWORD);
+        try (Connection conn = dataSource.getConnection();
              Statement statement = conn.createStatement();
              ResultSet rs = statement.executeQuery("SELECT\n" +
                      "    login,\n" +
@@ -60,11 +63,14 @@ public class DBStorageUser implements IStorageUser {
 
     @Override
     public void add(User user) {
-        try (Connection conn = DriverManager.getConnection(URL,USER, PASSWORD);
+
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement statement = conn.prepareStatement(
                 "INSERT INTO app.users (login, \"password\", date_reg, fio, birthday) " +
-                        "VALUES (?, ?, ?, ?, ?)"))
+                        "VALUES (?, ?, ?, ?, ?);"))
         {
+            conn.setAutoCommit(false);
+
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setObject(3, user.getRegistration());
@@ -72,6 +78,18 @@ public class DBStorageUser implements IStorageUser {
             statement.setObject(5, user.getBirthday());
 
             statement.executeUpdate();
+
+            try {
+                this.auditUserStorage.create(
+                        new AuditUser(LocalDateTime.now(), "Регистрация", user, null),
+                        conn);
+            } catch (RuntimeException e) {
+                conn.rollback();
+                throw new IllegalArgumentException("Не удалось создать аудит");
+            }
+
+            conn.commit();
+
         } catch (SQLException e) {
             throw new IllegalArgumentException("Пользователь с логином " + user.getLogin() + " уже существует");
         }
@@ -81,7 +99,7 @@ public class DBStorageUser implements IStorageUser {
     public long getCount() {
         long res = 0;
 
-        try (Connection conn = DriverManager.getConnection(URL,USER, PASSWORD);
+        try (Connection conn = dataSource.getConnection();
              Statement statement = conn.createStatement();
              ResultSet rs = statement.executeQuery("SELECT count(*) FROM app.users"))
         {

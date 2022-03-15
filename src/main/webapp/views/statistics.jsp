@@ -21,7 +21,7 @@
                 </c:forEach>
             </tbody>
          </table>
-         <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/mainPage';"
+         <p><input type="button" onclick="location.href='/Messenger/mainPage';"
             value="На главную"></p>
     </body>
 </html>

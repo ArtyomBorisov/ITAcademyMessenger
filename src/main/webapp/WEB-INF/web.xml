@@ -2,7 +2,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
           http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <display-name>Homework_Mk_JD2_88_22</display-name>
+    <display-name>Messenger</display-name>
+
+    <welcome-file-list>
+        <welcome-file>mainPage.jsp</welcome-file>
+    </welcome-file-list>
 
     <listener>
         <listener-class>by.it.academy.homework_1.controller.web.listeners.SessionListener</listener-class>

@@ -3,7 +3,6 @@ package by.it.academy.homework_1.view;
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.storage.DBStorageUser;
 import by.it.academy.homework_1.storage.api.IStorageUser;
-import by.it.academy.homework_1.view.api.IMessageService;
 import by.it.academy.homework_1.view.api.IUserService;
 
 import java.time.LocalDateTime;
@@ -12,11 +11,9 @@ public class UserService implements IUserService {
 
     private static final UserService instance = new UserService();
     private final IStorageUser storageUser;
-    private final IMessageService messageService;
 
     private UserService() {
         this.storageUser = DBStorageUser.getInstance();
-        this.messageService = MessageService.getInstance();
     }
 
     @Override

@@ -14,7 +14,7 @@
         <c:choose>
             <c:when test="${sessionScope.user != null}">
                 Вы уже вошли.
-                <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/mainPage';"
+                <p><input type="button" onclick="location.href='/Messenger/mainPage';"
                     value="На главную"></p>
             </c:when>
             <c:otherwise>
@@ -22,11 +22,11 @@
                     ${inf}
                     <c:set value="" var="inf" scope="session"/>
                 </c:if>
-                <form action="/Homework_Mk-JD2-88-22-0.0.0/signIn" method="post">
+                <form action="/Messenger/signIn" method="post">
                     <p>Логин <input type="text" name="login" placeholder="Логин" required></p>
                     <p>Пароль <input type="password" name="password" placeholder="Пароль" required></p>
                     <p><input type="submit"  value="Войти"></p>
-                    <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/mainPage';"
+                    <p><input type="button" onclick="location.href='/Messenger/mainPage';"
                         value="На главную"></p>
                 </form>
             </c:otherwise>

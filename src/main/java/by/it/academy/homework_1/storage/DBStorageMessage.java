@@ -3,6 +3,7 @@ package by.it.academy.homework_1.storage;
 import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.storage.api.IStorageMessage;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,12 +14,10 @@ import java.util.List;
 public class DBStorageMessage implements IStorageMessage {
 
     private static final DBStorageMessage instance = new DBStorageMessage();
-    private final String URL = "jdbc:postgresql://localhost:5433/messenger?ApplicationName=Messenger";
-    private final String USER = "postgres";
-    private final String PASSWORD = "postgres";
+    private final DataSource dataSource;
 
     private DBStorageMessage() {
-        DBInitializer.getInstance();
+        this.dataSource = DBInitializer.getInstance().getDataSource();
     }
 
     @Override
@@ -26,7 +25,7 @@ public class DBStorageMessage implements IStorageMessage {
         List<Message> list = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        try (Connection conn = DriverManager.getConnection(URL,USER, PASSWORD);
+        try (Connection conn = dataSource.getConnection();
              Statement statement = conn.createStatement();
              ResultSet rs = statement.executeQuery("SELECT\n" +
                      "    \"from\",\n" +
@@ -61,7 +60,7 @@ public class DBStorageMessage implements IStorageMessage {
 
     @Override
     public void add(Message message) {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement statement = conn.prepareStatement(
                      "INSERT INTO app.messages (\"from\", \"to\", send_date, text) " +
                              "VALUES (?, ?, ?, ?)")) {
@@ -80,7 +79,7 @@ public class DBStorageMessage implements IStorageMessage {
     public long getCount() {
         long res = 0;
 
-        try (Connection conn = DriverManager.getConnection(URL,USER, PASSWORD);
+        try (Connection conn = dataSource.getConnection();
              Statement statement = conn.createStatement();
              ResultSet rs = statement.executeQuery("SELECT count(*) FROM app.messages"))
         {

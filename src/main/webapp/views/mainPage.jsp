@@ -17,27 +17,27 @@
         </c:if>
         <c:choose>
             <c:when test="${sessionScope.user != null}">
-                <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/message';"
+                <p><input type="button" onclick="location.href='/Messenger/message';"
                     value="Отправить сообщение"></p>
 
-                <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/chats';"
+                <p><input type="button" onclick="location.href='/Messenger/chats';"
                     value="Просмотреть сообщения"></p>
 
-                <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/statistics';"
+                <p><input type="button" onclick="location.href='/Messenger/statistics';"
                                     value="Статистика"></p>
 
-                <form action="/Homework_Mk-JD2-88-22-0.0.0/exit">
+                <form action="/Messenger/exit">
                     <p><input type="submit" value="Выйти"></p>
                 </form>
             </c:when>
             <c:otherwise>
-                <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/statistics';"
+                <p><input type="button" onclick="location.href='/Messenger/statistics';"
                     value="Статистика"></p>
 
-                <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/signUp';"
+                <p><input type="button" onclick="location.href='/Messenger/signUp';"
                     value="Зарегистрироваться"></p>
 
-                <p><input type="button" onclick="location.href='/Homework_Mk-JD2-88-22-0.0.0/signIn';"
+                <p><input type="button" onclick="location.href='/Messenger/signIn';"
                     value="Войти"></p>
             </c:otherwise>
         </c:choose>
