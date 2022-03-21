@@ -2,6 +2,7 @@ package by.it.academy.homework_1.view;
 
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.storage.DBStorageUser;
+import by.it.academy.homework_1.storage.HibernateStorageUser;
 import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.view.api.IUserService;
 
@@ -13,7 +14,7 @@ public class UserService implements IUserService {
     private final IStorageUser storageUser;
 
     private UserService() {
-        this.storageUser = DBStorageUser.getInstance();
+        this.storageUser = HibernateStorageUser.getInstance();
     }
 
     @Override

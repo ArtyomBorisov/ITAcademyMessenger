@@ -3,6 +3,7 @@ package by.it.academy.homework_1.view;
 import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.storage.DBStorageMessage;
+import by.it.academy.homework_1.storage.HibernateStorageMessage;
 import by.it.academy.homework_1.storage.api.IStorageMessage;
 import by.it.academy.homework_1.view.api.IMessageService;
 
@@ -14,7 +15,7 @@ public class MessageService implements IMessageService {
     private final IStorageMessage storageMessage;
 
     private MessageService() {
-        this.storageMessage = DBStorageMessage.getInstance();
+        this.storageMessage = HibernateStorageMessage.getInstance();
     }
 
     @Override
