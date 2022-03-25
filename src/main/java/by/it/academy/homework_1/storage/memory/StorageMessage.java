@@ -1,4 +1,4 @@
-package by.it.academy.homework_1.storage;
+package by.it.academy.homework_1.storage.memory;
 
 import by.it.academy.homework_1.storage.api.IStorageMessage;
 import by.it.academy.homework_1.model.Message;

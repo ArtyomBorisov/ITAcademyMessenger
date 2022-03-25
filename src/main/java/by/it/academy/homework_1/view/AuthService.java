@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class AuthService implements IAuthService {
 
-    private final static AuthService instance = new AuthService();
+    private static final AuthService instance = new AuthService();
     private final IUserService  userService;
 
     private AuthService() {

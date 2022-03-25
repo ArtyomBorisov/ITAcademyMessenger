@@ -1,9 +1,10 @@
-package by.it.academy.homework_1.storage;
+package by.it.academy.homework_1.storage.sql;
 
 import by.it.academy.homework_1.model.AuditUser;
 import by.it.academy.homework_1.model.Pageable;
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.storage.api.IAuditUserStorage;
+import by.it.academy.homework_1.storage.sql.api.SQLDBInitializer;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -22,7 +23,7 @@ public class DBAuditUserStorage implements IAuditUserStorage {
     private final DataSource dataSource;
 
     public DBAuditUserStorage() {
-        this.dataSource = DBInitializer.getInstance().getDataSource();
+        this.dataSource = SQLDBInitializer.getInstance().getDataSource();
     }
 
     @Override
@@ -30,11 +31,11 @@ public class DBAuditUserStorage implements IAuditUserStorage {
         try (Connection conn = dataSource.getConnection()) {
             return create(auditUser, conn);
         } catch (SQLException e) {
-            throw new RuntimeException("Ошибка выполнение SQL");
+            throw new RuntimeException("Ошибка подключения к БД");
         }
     }
 
-    @Override
+    //для DBStorageUserWithAuditDecorator
     public Long create(AuditUser auditUser, Connection conn) {
         if(conn == null){
             return create(auditUser);

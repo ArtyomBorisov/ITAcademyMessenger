@@ -1,7 +1,8 @@
-package by.it.academy.homework_1.storage;
+package by.it.academy.homework_1.storage.sql;
 
 import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.storage.api.IStorageMessage;
+import by.it.academy.homework_1.storage.sql.api.SQLDBInitializer;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -17,7 +18,7 @@ public class DBStorageMessage implements IStorageMessage {
     private final DataSource dataSource;
 
     private DBStorageMessage() {
-        this.dataSource = DBInitializer.getInstance().getDataSource();
+        this.dataSource = SQLDBInitializer.getInstance().getDataSource();
     }
 
     @Override

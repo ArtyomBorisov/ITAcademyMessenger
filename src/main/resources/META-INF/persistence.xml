@@ -9,24 +9,21 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
 
-    <persistence-unit name="org.hibernate.tutorial.jpa">
-        <description>
-            Persistence unit for the JPA tutorial of the Hibernate Getting Started Guide
-        </description>
-
-        <class>by.it.academy.homework_1.model.Message</class>
-        <class>by.it.academy.homework_1.model.User</class>
+    <persistence-unit name="by.it.academy.homework_1.storage.hibernate.api.entity">
+        <class>by.it.academy.homework_1.storage.hibernate.api.entity.UserEntity</class>
+        <class>by.it.academy.homework_1.storage.hibernate.api.entity.MessageEntity</class>
+        <class>by.it.academy.homework_1.storage.hibernate.api.entity.AuditUserEntity</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:postgresql://localhost:5433/messengerHybernate?ApplicationName=messengerHybernate" />
+                      value="jdbc:postgresql://localhost:5433/messengerHibernate?ApplicationName=messengerHibernate" />
             <property name="javax.persistence.jdbc.user" value="postgres" />
             <property name="javax.persistence.jdbc.password" value="postgres" />
 
             <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="create" />
-            <property name="hibernate.default_schema" value="app" />
+            <property name="hibernate.hbm2ddl.auto" value="none" />
+            <property name="hibernate.default_schema" value="app"/>
         </properties>
 
     </persistence-unit>

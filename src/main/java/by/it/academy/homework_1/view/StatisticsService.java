@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class StatisticsService implements IStatisticsService {
 
-    private final static StatisticsService instance = new StatisticsService();
+    private static final StatisticsService instance = new StatisticsService();
     private final AtomicLong sessionCounter;
     private final IUserService userService;
     private final IMessageService messageService;

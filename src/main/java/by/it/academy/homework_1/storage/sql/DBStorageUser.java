@@ -1,9 +1,8 @@
-package by.it.academy.homework_1.storage;
+package by.it.academy.homework_1.storage.sql;
 
-import by.it.academy.homework_1.model.AuditUser;
 import by.it.academy.homework_1.model.User;
-import by.it.academy.homework_1.storage.api.IAuditUserStorage;
 import by.it.academy.homework_1.storage.api.IStorageUser;
+import by.it.academy.homework_1.storage.sql.api.SQLDBInitializer;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -16,11 +15,9 @@ public class DBStorageUser implements IStorageUser {
 
     private static final DBStorageUser instance = new DBStorageUser();
     private final DataSource dataSource;
-    private final IAuditUserStorage auditUserStorage;
 
     private DBStorageUser() {
-        this.dataSource = DBInitializer.getInstance().getDataSource();
-        this.auditUserStorage = DBAuditUserStorage.getInstance();
+        this.dataSource = SQLDBInitializer.getInstance().getDataSource();
     }
 
     @Override
@@ -63,14 +60,26 @@ public class DBStorageUser implements IStorageUser {
 
     @Override
     public void add(User user) {
+        try (Connection conn = dataSource.getConnection()) {
+            this.add(user, conn);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка подключения к БД");
+        }
+    }
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement statement = conn.prepareStatement(
-                "INSERT INTO app.users (login, \"password\", date_reg, fio, birthday) " +
-                        "VALUES (?, ?, ?, ?, ?);"))
+    //для DBStorageUserWithAuditDecorator
+    public void add(User user, Connection conn) {
+        if(conn == null){
+            add(user);
+        }
+        if(user == null){
+            throw new IllegalArgumentException("User не может быть null");
+        }
+
+        try (PreparedStatement statement = conn.prepareStatement(
+                     "INSERT INTO app.users (login, \"password\", date_reg, fio, birthday) " +
+                             "VALUES (?, ?, ?, ?, ?);"))
         {
-            conn.setAutoCommit(false);
-
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setObject(3, user.getRegistration());
@@ -78,17 +87,6 @@ public class DBStorageUser implements IStorageUser {
             statement.setObject(5, user.getBirthday());
 
             statement.executeUpdate();
-
-            try {
-                this.auditUserStorage.create(
-                        new AuditUser(LocalDateTime.now(), "Регистрация", user, null),
-                        conn);
-            } catch (RuntimeException e) {
-                conn.rollback();
-                throw new IllegalArgumentException("Не удалось создать аудит");
-            }
-
-            conn.commit();
 
         } catch (SQLException e) {
             throw new IllegalArgumentException("Пользователь с логином " + user.getLogin() + " уже существует");

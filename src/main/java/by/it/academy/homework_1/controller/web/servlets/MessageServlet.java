@@ -41,10 +41,13 @@ public class MessageServlet extends HttpServlet {
         String loginTo = req.getParameter("loginTo");
         String messageText = req.getParameter("messageText");
 
-        messageService.add(new Message(loginFrom, loginTo, messageText, LocalDateTime.now()));
-
-        session.setAttribute(INFORM_KEY, "Сообщение отправлено");
-
-        req.getRequestDispatcher(URL_FORWARD_KEY_1).forward(req, resp);
+        try {
+            messageService.add(new Message(loginFrom, loginTo, messageText, LocalDateTime.now()));
+            session.setAttribute(INFORM_KEY, "Сообщение отправлено");
+            req.getRequestDispatcher(URL_FORWARD_KEY_1).forward(req, resp);
+        } catch (IllegalArgumentException e) {
+            session.setAttribute(INFORM_KEY, e.getMessage());
+            req.getRequestDispatcher(URL_FORWARD_KEY_2).forward(req, resp);
+        }
     }
 }

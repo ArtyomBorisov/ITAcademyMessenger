@@ -1,16 +1,10 @@
 package by.it.academy.homework_1.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "users")
 public class User {
     private Long id;
-
     private String login;
     private String password;
     private String name;
@@ -35,14 +29,11 @@ public class User {
         this.birthday = birthday;
     }
 
-    @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
     public Long getId() {
         return id;
     }
 
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,36 +41,18 @@ public class User {
         return login;
     }
 
-    private void setLogin(String login) {
-        this.login = login;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    private void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Column(name = "fio")
     public String getName() {
         return name;
-    }
-
-    private void setName(String name) {
-        this.name = name;
     }
 
     public LocalDate getBirthday() {
         return birthday;
     }
 
-    private void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    @Column(name = "date_reg")
     public LocalDateTime getRegistration() {
         return registration;
     }
@@ -130,5 +103,16 @@ public class User {
         public User build(){
             return new User(login, password, name, birthday, registration);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", birthday=" + birthday +
+                ", registration=" + registration +
+                '}';
     }
 }

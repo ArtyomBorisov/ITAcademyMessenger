@@ -1,16 +1,16 @@
-package by.it.academy.homework_1.storage;
+package by.it.academy.homework_1.storage.sql.api;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 
-public class DBInitializer {
-    private volatile static DBInitializer instance;
+public class SQLDBInitializer implements AutoCloseable {
+    private volatile static SQLDBInitializer instance;
 
     private ComboPooledDataSource cpds;
 
-    private DBInitializer() throws PropertyVetoException {
+    private SQLDBInitializer() throws PropertyVetoException {
         cpds = new ComboPooledDataSource();
         cpds.setDriverClass("org.postgresql.Driver");
         cpds.setJdbcUrl("jdbc:postgresql://localhost:5433/messenger?ApplicationName=MessengerDB");
@@ -26,12 +26,12 @@ public class DBInitializer {
         return cpds;
     }
 
-    public static DBInitializer getInstance() {
+    public static SQLDBInitializer getInstance() {
         if(instance == null){
-            synchronized (DBInitializer.class){
+            synchronized (SQLDBInitializer.class){
                 if(instance == null){
                     try {
-                        instance = new DBInitializer();
+                        instance = new SQLDBInitializer();
                     } catch (Exception e) {
                         throw new RuntimeException("Ошибка подключения к базе", e);
                     }
@@ -39,5 +39,10 @@ public class DBInitializer {
             }
         }
         return instance;
+    }
+
+    @Override
+    public synchronized void close() throws Exception {
+        cpds.close();
     }
 }
