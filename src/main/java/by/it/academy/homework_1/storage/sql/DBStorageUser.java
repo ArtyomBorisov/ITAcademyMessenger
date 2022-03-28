@@ -1,7 +1,7 @@
 package by.it.academy.homework_1.storage.sql;
 
 import by.it.academy.homework_1.model.User;
-import by.it.academy.homework_1.storage.api.IStorageUser;
+import by.it.academy.homework_1.storage.sql.api.IDBStorageUser;
 import by.it.academy.homework_1.storage.sql.api.SQLDBInitializer;
 
 import javax.sql.DataSource;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class DBStorageUser implements IStorageUser {
+public class DBStorageUser implements IDBStorageUser {
 
     private static final DBStorageUser instance = new DBStorageUser();
     private final DataSource dataSource;
@@ -67,7 +67,7 @@ public class DBStorageUser implements IStorageUser {
         }
     }
 
-    //для DBStorageUserWithAuditDecorator
+    @Override
     public void add(User user, Connection conn) {
         if(conn == null){
             add(user);

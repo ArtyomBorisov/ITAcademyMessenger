@@ -11,8 +11,8 @@ public class AuditUserEntity {
     private Long id;
     private LocalDateTime dtCreate;
     private String text;
-    private String user;
-    private String author;
+    private UserEntity user;
+    private UserEntity author;
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -25,7 +25,7 @@ public class AuditUserEntity {
         this.id = id;
     }
 
-    @Column(name = "date_create")
+    @Column(name = "date_create", nullable = false)
     public LocalDateTime getDtCreate() {
         return dtCreate;
     }
@@ -34,6 +34,7 @@ public class AuditUserEntity {
         this.dtCreate = dtCreate;
     }
 
+    @Column(nullable = false)
     public String getText() {
         return text;
     }
@@ -42,20 +43,24 @@ public class AuditUserEntity {
         this.text = text;
     }
 
-    @Column(name = "\"user\"")
-    public String getUser() {
+//здесь можно использовать @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id")
+    @ManyToOne
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
-    public String getAuthor() {
+    @JoinColumn
+    @ManyToOne
+    public UserEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(UserEntity author) {
         this.author = author;
     }
 }

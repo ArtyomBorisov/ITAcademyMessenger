@@ -1,8 +1,8 @@
 package by.it.academy.homework_1.storage.hibernate;
 
 import by.it.academy.homework_1.model.User;
-import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.storage.hibernate.api.HibernateDBInitializer;
+import by.it.academy.homework_1.storage.hibernate.api.IHibernateStorageUser;
 import by.it.academy.homework_1.storage.hibernate.api.entity.UserEntity;
 import by.it.academy.homework_1.storage.hibernate.api.mapper.UserMapper;
 
@@ -11,7 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public class HibernateStorageUser implements IStorageUser {
+public class HibernateStorageUser implements IHibernateStorageUser {
     private static final HibernateStorageUser instance = new HibernateStorageUser();
 
     private HibernateStorageUser() {
@@ -50,8 +50,8 @@ public class HibernateStorageUser implements IStorageUser {
         manager.close();
     }
 
-    //для HibernateStorageUserWithAuditDecorator
-    public void add(User user, EntityManager manager) throws RollbackException {
+    @Override
+    public void add(User user, EntityManager manager) {
         if (this.get(user.getLogin()) != null) {
             manager.close();
             throw new IllegalArgumentException("Пользователь с логином " + user.getLogin() + " уже существует");

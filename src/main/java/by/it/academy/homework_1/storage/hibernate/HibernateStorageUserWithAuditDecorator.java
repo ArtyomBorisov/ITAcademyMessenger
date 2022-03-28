@@ -4,6 +4,8 @@ import by.it.academy.homework_1.model.AuditUser;
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.storage.hibernate.api.HibernateDBInitializer;
+import by.it.academy.homework_1.storage.hibernate.api.IHibernateAuditUserStorage;
+import by.it.academy.homework_1.storage.hibernate.api.IHibernateStorageUser;
 
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
@@ -11,8 +13,8 @@ import javax.persistence.RollbackException;
 public class HibernateStorageUserWithAuditDecorator implements IStorageUser {
     private static final HibernateStorageUserWithAuditDecorator instance = new HibernateStorageUserWithAuditDecorator();
 
-    private final HibernateStorageUser storageUser;
-    private final HibernateAuditUserStorage auditUserStorage;
+    private final IHibernateStorageUser storageUser;
+    private final IHibernateAuditUserStorage auditUserStorage;
 
     private HibernateStorageUserWithAuditDecorator() {
         this.storageUser = HibernateStorageUser.getInstance();
@@ -31,8 +33,10 @@ public class HibernateStorageUserWithAuditDecorator implements IStorageUser {
 
         try {
             this.storageUser.add(user, manager);
-            AuditUser auditUser = new AuditUser(user.getRegistration(), "Регистрация", user, null);
-            this.auditUserStorage.create(auditUser, manager);
+//_______________________
+            AuditUser auditUser = new AuditUser(user.getRegistration(), "Регистрация", null, null);
+//_______________________
+            Long idAudit = this.auditUserStorage.create(auditUser, manager);
             manager.getTransaction().commit();
         } catch (RollbackException e) {
             throw new IllegalArgumentException("Ошибка регистрации");

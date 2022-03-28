@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 public class MessageEntity {
     private Long id;
 
-    private String userFrom;
-    private String userTo;
+    private UserEntity userFrom;
+    private UserEntity userTo;
     private String textMessage;
     private LocalDateTime timeSending;
 
@@ -26,25 +26,27 @@ public class MessageEntity {
         this.id = id;
     }
 
-    @Column(name = "\"from\"")
-    public String getUserFrom() {
+    @JoinColumn(name = "\"from\"", nullable = false)
+    @ManyToOne
+    public UserEntity getUserFrom() {
         return userFrom;
     }
 
-    public void setUserFrom(String userFrom) {
+    public void setUserFrom(UserEntity userFrom) {
         this.userFrom = userFrom;
     }
 
-    @Column(name = "\"to\"")
-    public String getUserTo() {
+    @JoinColumn(name = "\"to\"", nullable = false)
+    @ManyToOne
+    public UserEntity getUserTo() {
         return userTo;
     }
 
-    public void setUserTo(String userTo) {
+    public void setUserTo(UserEntity userTo) {
         this.userTo = userTo;
     }
 
-    @Column(name = "text")
+    @Column(name = "text", nullable = false)
     public String getTextMessage() {
         return textMessage;
     }
@@ -53,7 +55,7 @@ public class MessageEntity {
         this.textMessage = textMessage;
     }
 
-    @Column(name = "send_date")
+    @Column(name = "send_date", nullable = false)
     public LocalDateTime getTimeSending() {
         return timeSending;
     }

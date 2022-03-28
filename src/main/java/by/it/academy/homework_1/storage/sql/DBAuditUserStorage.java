@@ -3,7 +3,7 @@ package by.it.academy.homework_1.storage.sql;
 import by.it.academy.homework_1.model.AuditUser;
 import by.it.academy.homework_1.model.Pageable;
 import by.it.academy.homework_1.model.User;
-import by.it.academy.homework_1.storage.api.IAuditUserStorage;
+import by.it.academy.homework_1.storage.sql.api.IDBAuditUserStorage;
 import by.it.academy.homework_1.storage.sql.api.SQLDBInitializer;
 
 import javax.sql.DataSource;
@@ -17,7 +17,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBAuditUserStorage implements IAuditUserStorage {
+public class DBAuditUserStorage implements IDBAuditUserStorage {
 
     private static final DBAuditUserStorage instance = new DBAuditUserStorage();
     private final DataSource dataSource;
@@ -35,7 +35,7 @@ public class DBAuditUserStorage implements IAuditUserStorage {
         }
     }
 
-    //для DBStorageUserWithAuditDecorator
+    @Override
     public Long create(AuditUser auditUser, Connection conn) {
         if(conn == null){
             return create(auditUser);

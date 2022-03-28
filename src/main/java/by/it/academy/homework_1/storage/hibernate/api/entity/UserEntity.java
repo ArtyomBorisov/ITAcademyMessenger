@@ -28,6 +28,7 @@ public class UserEntity {
         this.id = id;
     }
 
+    @Column(unique = true, nullable = false)
     public String getLogin() {
         return login;
     }
@@ -36,6 +37,7 @@ public class UserEntity {
         this.login = login;
     }
 
+    @Column(nullable = false)
     public String getPassword() {
         return password;
     }
@@ -53,6 +55,7 @@ public class UserEntity {
         this.name = name;
     }
 
+    @Column
     public LocalDate getBirthday() {
         return birthday;
     }
@@ -61,7 +64,7 @@ public class UserEntity {
         this.birthday = birthday;
     }
 
-    @Column(name = "date_reg")
+    @Column(name = "date_reg", nullable = false)
     public LocalDateTime getRegistration() {
         return registration;
     }

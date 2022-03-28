@@ -36,7 +36,6 @@ public class HibernateDBInitializer implements AutoCloseable {
         }
         return instance;
     }
-
     @Override
     public synchronized void close() throws Exception {
         if(entityManagerFactory.isOpen()){

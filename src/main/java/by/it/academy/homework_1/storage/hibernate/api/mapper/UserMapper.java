@@ -1,10 +1,15 @@
 package by.it.academy.homework_1.storage.hibernate.api.mapper;
 
 import by.it.academy.homework_1.model.User;
+import by.it.academy.homework_1.storage.hibernate.api.IMapper;
 import by.it.academy.homework_1.storage.hibernate.api.entity.UserEntity;
 
-public class UserMapper {
+public class UserMapper implements IMapper<User, UserEntity> {
+    @Override
     public User toDto (UserEntity userEntity) {
+        if (userEntity == null) {
+            return null;
+        }
         User user = new User(
                 userEntity.getLogin(),
                 userEntity.getPassword(),
@@ -16,7 +21,11 @@ public class UserMapper {
         return user;
     }
 
+    @Override
     public UserEntity toEntity (User user) {
+        if (user == null) {
+            return null;
+        }
         UserEntity userEntity = new UserEntity();
         userEntity.setId(user.getId());
         userEntity.setLogin(user.getLogin());

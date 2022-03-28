@@ -4,18 +4,18 @@ import by.it.academy.homework_1.model.AuditUser;
 import by.it.academy.homework_1.model.Pageable;
 import by.it.academy.homework_1.storage.api.IAuditUserStorage;
 import by.it.academy.homework_1.storage.hibernate.api.HibernateDBInitializer;
+import by.it.academy.homework_1.storage.hibernate.api.IHibernateAuditUserStorage;
 import by.it.academy.homework_1.storage.hibernate.api.entity.AuditUserEntity;
 import by.it.academy.homework_1.storage.hibernate.api.mapper.AuditUserMapper;
 
 import javax.persistence.EntityManager;
-import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HibernateAuditUserStorage implements IAuditUserStorage {
+public class HibernateAuditUserStorage implements IHibernateAuditUserStorage {
     private static final HibernateAuditUserStorage instance = new HibernateAuditUserStorage();
 
     private HibernateAuditUserStorage() {
@@ -34,7 +34,7 @@ public class HibernateAuditUserStorage implements IAuditUserStorage {
         return result;
     }
 
-    //для HibernateStorageUserWithAuditDecorator
+    @Override
     public Long create(AuditUser auditUser, EntityManager manager) {
         if (manager == null) {
             manager = HibernateDBInitializer.getInstance().getManager();
