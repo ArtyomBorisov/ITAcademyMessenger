@@ -1,12 +1,13 @@
 package by.it.academy.homework_1.storage.hibernate.api.mapper;
 
 import by.it.academy.homework_1.model.Message;
-import by.it.academy.homework_1.storage.hibernate.HibernateStorageUser;
+import by.it.academy.homework_1.storage.api.ChoiceFactoryStorage;
+import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.storage.hibernate.api.IMapper;
 import by.it.academy.homework_1.storage.hibernate.api.entity.MessageEntity;
 
 public class MessageMapper implements IMapper<Message, MessageEntity> {
-    private HibernateStorageUser storageUser = HibernateStorageUser.getInstance();
+    private IStorageUser storageUser = ChoiceFactoryStorage.getInstance().getStorageUser();
     private UserMapper userMapper = new UserMapper();
 
     @Override
