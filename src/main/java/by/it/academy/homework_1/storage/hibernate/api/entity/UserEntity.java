@@ -1,7 +1,5 @@
 package by.it.academy.homework_1.storage.hibernate.api.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,8 +16,8 @@ public class UserEntity {
     private LocalDateTime registration;
 
     @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
@@ -28,7 +26,7 @@ public class UserEntity {
         this.id = id;
     }
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "login", unique = true, nullable = false)
     public String getLogin() {
         return login;
     }
@@ -37,7 +35,7 @@ public class UserEntity {
         this.login = login;
     }
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     public String getPassword() {
         return password;
     }
@@ -55,7 +53,7 @@ public class UserEntity {
         this.name = name;
     }
 
-    @Column
+    @Column(name = "birthday")
     public LocalDate getBirthday() {
         return birthday;
     }

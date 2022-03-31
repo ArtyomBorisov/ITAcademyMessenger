@@ -1,7 +1,5 @@
 package by.it.academy.homework_1.storage.hibernate.api.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -15,8 +13,8 @@ public class AuditUserEntity {
     private UserEntity author;
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
@@ -34,7 +32,7 @@ public class AuditUserEntity {
         this.dtCreate = dtCreate;
     }
 
-    @Column(nullable = false)
+    @Column(name = "text", nullable = false)
     public String getText() {
         return text;
     }
@@ -43,9 +41,8 @@ public class AuditUserEntity {
         this.text = text;
     }
 
-//здесь можно использовать @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id")
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     public UserEntity getUser() {
         return user;
     }
@@ -54,8 +51,8 @@ public class AuditUserEntity {
         this.user = user;
     }
 
-    @JoinColumn
     @ManyToOne
+    @JoinColumn(name = "author_id")
     public UserEntity getAuthor() {
         return author;
     }

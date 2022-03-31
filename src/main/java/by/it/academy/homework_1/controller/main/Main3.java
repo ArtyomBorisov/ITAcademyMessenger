@@ -18,9 +18,9 @@ public class Main3 {
         //HibernateStorageMessage storageMessage = HibernateStorageMessage.getInstance();
         HibernateStorageUserWithAuditDecorator decorator = HibernateStorageUserWithAuditDecorator.getInstance();
 
-        User user = new User("user100", "pass", "fio", LocalDate.now(),  LocalDateTime.now());
+        User user = new User("user1", "pass", "fio", LocalDate.now(),  LocalDateTime.now());
         //Message message = new Message("login", "login", "text", LocalDateTime.now());
-        AuditUser auditUser = new AuditUser(LocalDateTime.now(), "text", null, null);
+        AuditUser auditUser = new AuditUser(LocalDateTime.now(), "text", user, null);
 
         //storageUser.add(user);
         //storageMessage.add(message);

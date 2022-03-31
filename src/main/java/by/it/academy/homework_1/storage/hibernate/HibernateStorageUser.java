@@ -65,6 +65,8 @@ public class HibernateStorageUser implements IHibernateStorageUser {
         UserEntity userEntity = mapper.toEntity(user);
 
         manager.persist(userEntity);
+
+        user.setId(userEntity.getId());
     }
 
     @Override

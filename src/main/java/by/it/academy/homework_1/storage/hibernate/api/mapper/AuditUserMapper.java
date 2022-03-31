@@ -29,7 +29,7 @@ public class AuditUserMapper implements IMapper<AuditUser, AuditUserEntity> {
         auditUserEntity.setId(auditUser.getId());
         auditUserEntity.setUser(userMapper.toEntity(auditUser.getUser()));
         auditUserEntity.setText(auditUser.getText());
-        auditUserEntity.setAuthor(auditUserEntity.getAuthor());
+        auditUserEntity.setAuthor(userMapper.toEntity(auditUser.getAuthor()));
         auditUserEntity.setDtCreate(auditUser.getDtCreate());
 
         return auditUserEntity;

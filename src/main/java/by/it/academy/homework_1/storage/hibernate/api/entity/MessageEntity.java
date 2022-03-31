@@ -1,7 +1,5 @@
 package by.it.academy.homework_1.storage.hibernate.api.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -16,8 +14,8 @@ public class MessageEntity {
     private LocalDateTime timeSending;
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
@@ -26,8 +24,8 @@ public class MessageEntity {
         this.id = id;
     }
 
-    @JoinColumn(name = "\"from\"", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "\"from\"", nullable = false)
     public UserEntity getUserFrom() {
         return userFrom;
     }
@@ -36,8 +34,8 @@ public class MessageEntity {
         this.userFrom = userFrom;
     }
 
-    @JoinColumn(name = "\"to\"", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "\"to\"", nullable = false)
     public UserEntity getUserTo() {
         return userTo;
     }

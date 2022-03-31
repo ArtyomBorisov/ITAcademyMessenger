@@ -33,10 +33,8 @@ public class HibernateStorageUserWithAuditDecorator implements IStorageUser {
 
         try {
             this.storageUser.add(user, manager);
-//_______________________
-            AuditUser auditUser = new AuditUser(user.getRegistration(), "Регистрация", null, null);
-//_______________________
-            Long idAudit = this.auditUserStorage.create(auditUser, manager);
+            AuditUser auditUser = new AuditUser(user.getRegistration(), "Регистрация", user, null);
+            this.auditUserStorage.create(auditUser, manager);
             manager.getTransaction().commit();
         } catch (RollbackException e) {
             throw new IllegalArgumentException("Ошибка регистрации");

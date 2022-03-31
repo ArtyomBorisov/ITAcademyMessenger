@@ -6,6 +6,7 @@ import by.it.academy.homework_1.storage.api.IAuditUserStorage;
 import by.it.academy.homework_1.storage.hibernate.api.HibernateDBInitializer;
 import by.it.academy.homework_1.storage.hibernate.api.IHibernateAuditUserStorage;
 import by.it.academy.homework_1.storage.hibernate.api.entity.AuditUserEntity;
+import by.it.academy.homework_1.storage.hibernate.api.entity.UserEntity;
 import by.it.academy.homework_1.storage.hibernate.api.mapper.AuditUserMapper;
 
 import javax.persistence.EntityManager;
@@ -42,6 +43,7 @@ public class HibernateAuditUserStorage implements IHibernateAuditUserStorage {
 
         AuditUserMapper mapper = new AuditUserMapper();
         AuditUserEntity auditUserEntity = mapper.toEntity(auditUser);
+        auditUserEntity.setUser(manager.find(UserEntity.class, auditUser.getUser().getId()));
 
         manager.persist(auditUserEntity);
 
