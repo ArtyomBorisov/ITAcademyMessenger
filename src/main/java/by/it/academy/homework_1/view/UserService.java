@@ -1,19 +1,19 @@
 package by.it.academy.homework_1.view;
 
 import by.it.academy.homework_1.model.User;
-import by.it.academy.homework_1.storage.api.ChoiceFactoryStorage;
 import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.view.api.IUserService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Service
 public class UserService implements IUserService {
 
-    private static final UserService instance = new UserService();
     private final IStorageUser storageUser;
 
-    private UserService() {
-        this.storageUser = ChoiceFactoryStorage.getInstance().getStorageUser();
+    public UserService(IStorageUser storageUser) {
+        this.storageUser = storageUser;
     }
 
     @Override
@@ -55,9 +55,5 @@ public class UserService implements IUserService {
     @Override
     public User get(String login) {
         return this.storageUser.get(login);
-    }
-
-    public static UserService getInstance() {
-        return instance;
     }
 }

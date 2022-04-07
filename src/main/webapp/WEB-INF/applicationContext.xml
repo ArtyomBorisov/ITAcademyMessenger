@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+    <context:property-placeholder location="classpath:/database.properties" />
+    <context:component-scan base-package="by.it.academy.homework_1.storage.hibernate,
+    by.it.academy.homework_1.storage.memory, by.it.academy.homework_1.storage.sql" />
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl" value="${jdbc.url}" />
+        <property name="user" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="minPoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+    </bean>
+
+    <bean id="storageUser" factory-bean="choiceFactoryStorage" factory-method="getStorageUser"/>
+    <bean id="storageMessage" factory-bean="choiceFactoryStorage" factory-method="getStorageMessage"/>
+    <bean id="auditUserStorage" factory-bean="choiceFactoryStorage" factory-method="getAuditUserStorage"/>
+
+<!--    value: memory, sql, sql_decorator, hibernate, hibernate_decorator-->
+    <bean id="choiceFactoryStorage" class="by.it.academy.homework_1.storage.api.ChoiceFactoryStorage">
+        <constructor-arg name="type" value="hibernate_decorator"/>
+    </bean>
+</beans>

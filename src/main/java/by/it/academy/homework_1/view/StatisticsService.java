@@ -3,22 +3,24 @@ package by.it.academy.homework_1.view;
 import by.it.academy.homework_1.view.api.IMessageService;
 import by.it.academy.homework_1.view.api.IStatisticsService;
 import by.it.academy.homework_1.view.api.IUserService;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Service
 public class StatisticsService implements IStatisticsService {
 
-    private static final StatisticsService instance = new StatisticsService();
     private final AtomicLong sessionCounter;
     private final IUserService userService;
     private final IMessageService messageService;
 
-    private StatisticsService() {
+    public StatisticsService(IUserService userService,
+                              IMessageService messageService) {
         this.sessionCounter = new AtomicLong(0);
-        this.userService = UserService.getInstance();
-        this.messageService = MessageService.getInstance();
+        this.userService = userService;
+        this.messageService = messageService;
     }
 
     @Override
@@ -42,9 +44,5 @@ public class StatisticsService implements IStatisticsService {
 
     private long getSessionCount() {
         return this.sessionCounter.get();
-    }
-
-    public static StatisticsService getInstance() {
-        return instance;
     }
 }

@@ -5,17 +5,15 @@ import by.it.academy.homework_1.storage.hibernate.api.HibernateDBInitializer;
 import by.it.academy.homework_1.storage.hibernate.api.IHibernateStorageUser;
 import by.it.academy.homework_1.storage.hibernate.api.entity.UserEntity;
 import by.it.academy.homework_1.storage.hibernate.api.mapper.UserMapper;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+@Component
 public class HibernateStorageUser implements IHibernateStorageUser {
-    private static final HibernateStorageUser instance = new HibernateStorageUser();
-
-    private HibernateStorageUser() {
-    }
 
     @Override
     public User get(String login) {
@@ -84,9 +82,5 @@ public class HibernateStorageUser implements IHibernateStorageUser {
         manager.close();
 
         return result;
-    }
-
-    public static HibernateStorageUser getInstance() {
-        return instance;
     }
 }

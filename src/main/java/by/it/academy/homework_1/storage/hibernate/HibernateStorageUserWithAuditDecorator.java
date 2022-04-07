@@ -6,19 +6,21 @@ import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.storage.hibernate.api.HibernateDBInitializer;
 import by.it.academy.homework_1.storage.hibernate.api.IHibernateAuditUserStorage;
 import by.it.academy.homework_1.storage.hibernate.api.IHibernateStorageUser;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 
+@Component
 public class HibernateStorageUserWithAuditDecorator implements IStorageUser {
-    private static final HibernateStorageUserWithAuditDecorator instance = new HibernateStorageUserWithAuditDecorator();
 
     private final IHibernateStorageUser storageUser;
     private final IHibernateAuditUserStorage auditUserStorage;
 
-    private HibernateStorageUserWithAuditDecorator() {
-        this.storageUser = HibernateStorageUser.getInstance();
-        this.auditUserStorage = HibernateAuditUserStorage.getInstance();
+    public HibernateStorageUserWithAuditDecorator(IHibernateStorageUser storageUser,
+                                                   IHibernateAuditUserStorage auditUserStorage) {
+        this.storageUser = storageUser;
+        this.auditUserStorage = auditUserStorage;
     }
 
     @Override
@@ -46,9 +48,5 @@ public class HibernateStorageUserWithAuditDecorator implements IStorageUser {
     @Override
     public long getCount() {
         return storageUser.getCount();
-    }
-
-    public static HibernateStorageUserWithAuditDecorator getInstance() {
-        return instance;
     }
 }

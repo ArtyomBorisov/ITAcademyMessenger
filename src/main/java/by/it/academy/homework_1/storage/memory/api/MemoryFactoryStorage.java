@@ -4,18 +4,30 @@ import by.it.academy.homework_1.storage.api.IAuditUserStorage;
 import by.it.academy.homework_1.storage.api.IFactoryStorage;
 import by.it.academy.homework_1.storage.api.IStorageMessage;
 import by.it.academy.homework_1.storage.api.IStorageUser;
-import by.it.academy.homework_1.storage.memory.StorageMessage;
-import by.it.academy.homework_1.storage.memory.StorageUser;
+import by.it.academy.homework_1.storage.memory.MemoryStorageMessage;
+import by.it.academy.homework_1.storage.memory.MemoryStorageUser;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MemoryFactoryStorage implements IFactoryStorage {
+
+    private IStorageUser storageUser;
+    private IStorageMessage storageMessage;
+
+    public MemoryFactoryStorage(MemoryStorageUser memoryStorageUser,
+                                MemoryStorageMessage memoryStorageMessage) {
+        this.storageUser = memoryStorageUser;
+        this.storageMessage = memoryStorageMessage;
+    }
+
     @Override
     public IStorageUser getStorageUser() {
-        return StorageUser.getInstance();
+        return this.storageUser;
     }
 
     @Override
     public IStorageMessage getStorageMessage() {
-        return StorageMessage.getInstance();
+        return this.storageMessage;
     }
 
     @Override

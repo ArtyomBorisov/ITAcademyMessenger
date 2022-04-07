@@ -1,28 +1,58 @@
 package by.it.academy.homework_1.storage.api;
 
 import by.it.academy.homework_1.storage.hibernate.api.HibernateFactoryDecoratorStorage;
+import by.it.academy.homework_1.storage.hibernate.api.HibernateFactoryStorage;
+import by.it.academy.homework_1.storage.memory.api.MemoryFactoryStorage;
+import by.it.academy.homework_1.storage.sql.api.SQLFactoryDecoratorStorage;
+import by.it.academy.homework_1.storage.sql.api.SQLFactoryStorage;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChoiceFactoryStorage implements IFactoryStorage {
-    private static final ChoiceFactoryStorage instance = new ChoiceFactoryStorage();
 
-    private IFactoryStorage fs = new HibernateFactoryDecoratorStorage();
+    private IFactoryStorage factoryStorage;
+
+    public ChoiceFactoryStorage(String type,
+                                MemoryFactoryStorage memoryFactoryStorage,
+                                SQLFactoryStorage sqlFactoryStorage,
+                                SQLFactoryDecoratorStorage sqlFactoryDecoratorStorage,
+                                HibernateFactoryStorage hibernateFactoryStorage,
+                                HibernateFactoryDecoratorStorage hibernateFactoryDecoratorStorage) {
+        type = type.toLowerCase();
+
+        switch (type) {
+            case "memory":
+                this.factoryStorage = memoryFactoryStorage;
+                break;
+            case "sql":
+                this.factoryStorage = sqlFactoryStorage;
+                break;
+            case "sql_decorator":
+                this.factoryStorage = sqlFactoryDecoratorStorage;
+                break;
+            case "hibernate":
+                this.factoryStorage = hibernateFactoryStorage;
+                break;
+            case "hibernate_decorator":
+                this.factoryStorage = hibernateFactoryDecoratorStorage;
+                break;
+            default:
+                throw new RuntimeException("Неизвестный тип Storage: " + type);
+        }
+    }
 
     @Override
     public IStorageUser getStorageUser() {
-        return fs.getStorageUser();
+        return this.factoryStorage.getStorageUser();
     }
 
     @Override
     public IStorageMessage getStorageMessage() {
-        return fs.getStorageMessage();
+        return this.factoryStorage.getStorageMessage();
     }
 
     @Override
     public IAuditUserStorage getAuditUserStorage() {
-        return fs.getAuditUserStorage();
-    }
-
-    public static ChoiceFactoryStorage getInstance() {
-        return instance;
+        return this.factoryStorage.getAuditUserStorage();
     }
 }

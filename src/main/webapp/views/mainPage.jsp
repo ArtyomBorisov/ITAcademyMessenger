@@ -13,7 +13,7 @@
         <h3>Мессенджер</h3>
         <c:if test="${!empty inf}">
             ${inf}
-            <c:set value="" var="inf" scope="session"/>
+            <c:set value="" var="inf" scope="request"/>
         </c:if>
         <c:choose>
             <c:when test="${sessionScope.user != null}">

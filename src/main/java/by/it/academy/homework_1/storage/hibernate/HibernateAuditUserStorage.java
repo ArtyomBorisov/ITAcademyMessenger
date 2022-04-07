@@ -2,12 +2,12 @@ package by.it.academy.homework_1.storage.hibernate;
 
 import by.it.academy.homework_1.model.AuditUser;
 import by.it.academy.homework_1.model.Pageable;
-import by.it.academy.homework_1.storage.api.IAuditUserStorage;
 import by.it.academy.homework_1.storage.hibernate.api.HibernateDBInitializer;
 import by.it.academy.homework_1.storage.hibernate.api.IHibernateAuditUserStorage;
 import by.it.academy.homework_1.storage.hibernate.api.entity.AuditUserEntity;
 import by.it.academy.homework_1.storage.hibernate.api.entity.UserEntity;
 import by.it.academy.homework_1.storage.hibernate.api.mapper.AuditUserMapper;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,11 +16,8 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class HibernateAuditUserStorage implements IHibernateAuditUserStorage {
-    private static final HibernateAuditUserStorage instance = new HibernateAuditUserStorage();
-
-    private HibernateAuditUserStorage() {
-    }
 
     @Override
     public Long create(AuditUser auditUser) {
@@ -88,9 +85,5 @@ public class HibernateAuditUserStorage implements IHibernateAuditUserStorage {
         }
 
         return result;
-    }
-
-    public static HibernateAuditUserStorage getInstance() {
-        return instance;
     }
 }

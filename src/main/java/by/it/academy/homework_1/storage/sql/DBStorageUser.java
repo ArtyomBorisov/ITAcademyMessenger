@@ -2,7 +2,7 @@ package by.it.academy.homework_1.storage.sql;
 
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.storage.sql.api.IDBStorageUser;
-import by.it.academy.homework_1.storage.sql.api.SQLDBInitializer;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+@Component
 public class DBStorageUser implements IDBStorageUser {
 
-    private static final DBStorageUser instance = new DBStorageUser();
     private final DataSource dataSource;
 
-    private DBStorageUser() {
-        this.dataSource = SQLDBInitializer.getInstance().getDataSource();
+    public DBStorageUser(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -109,9 +109,5 @@ public class DBStorageUser implements IDBStorageUser {
         }
 
         return res;
-    }
-
-    public static DBStorageUser getInstance() {
-        return instance;
     }
 }

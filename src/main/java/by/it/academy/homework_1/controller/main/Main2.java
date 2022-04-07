@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 public class Main2 {
     public static void main(String[] args) {
 
-        HibernateStorageUserWithAuditDecorator storageUser = HibernateStorageUserWithAuditDecorator.getInstance();
+//        HibernateStorageUserWithAuditDecorator storageUser = HibernateStorageUserWithAuditDecorator.getInstance();
 
         User user = new User("login5gf", "pass", "fio", LocalDate.now(),  LocalDateTime.now());
 
-        storageUser.add(user);
+//        storageUser.add(user);
     }
 }

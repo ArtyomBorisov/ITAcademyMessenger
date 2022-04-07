@@ -1,14 +1,20 @@
 package by.it.academy.homework_1.storage.hibernate.api.mapper;
 
 import by.it.academy.homework_1.model.Message;
-import by.it.academy.homework_1.storage.api.ChoiceFactoryStorage;
 import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.storage.hibernate.api.IMapper;
 import by.it.academy.homework_1.storage.hibernate.api.entity.MessageEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MessageMapper implements IMapper<Message, MessageEntity> {
-    private IStorageUser storageUser = ChoiceFactoryStorage.getInstance().getStorageUser();
+
     private UserMapper userMapper = new UserMapper();
+    private IStorageUser storageUser;
+
+    public MessageMapper(IStorageUser storageUser) {
+        this.storageUser = storageUser;
+    }
 
     @Override
     public Message toDto (MessageEntity messageEntity) {
@@ -32,13 +38,9 @@ public class MessageMapper implements IMapper<Message, MessageEntity> {
         }
         MessageEntity messageEntity = new MessageEntity();
         messageEntity.setUserTo(
-                userMapper.toEntity(
-                        this.storageUser.get(
-                                message.getUserTo())));
+                userMapper.toEntity(this.storageUser.get(message.getUserTo())));
         messageEntity.setUserFrom(
-                userMapper.toEntity(
-                        this.storageUser.get(
-                                message.getUserFrom())));
+                userMapper.toEntity(this.storageUser.get(message.getUserFrom())));
         messageEntity.setTextMessage(message.getTextMessage());
         messageEntity.setTimeSending(message.getTimeSending());
         messageEntity.setId(message.getId());

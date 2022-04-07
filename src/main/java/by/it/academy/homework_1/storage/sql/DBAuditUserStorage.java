@@ -4,7 +4,7 @@ import by.it.academy.homework_1.model.AuditUser;
 import by.it.academy.homework_1.model.Pageable;
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.storage.sql.api.IDBAuditUserStorage;
-import by.it.academy.homework_1.storage.sql.api.SQLDBInitializer;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -17,13 +17,13 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DBAuditUserStorage implements IDBAuditUserStorage {
 
-    private static final DBAuditUserStorage instance = new DBAuditUserStorage();
     private final DataSource dataSource;
 
-    public DBAuditUserStorage() {
-        this.dataSource = SQLDBInitializer.getInstance().getDataSource();
+    public DBAuditUserStorage(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -143,9 +143,5 @@ public class DBAuditUserStorage implements IDBAuditUserStorage {
             throw new IllegalStateException("Невозможно прочитать дату и время из базы данных", e);
         }
             return data;
-    }
-
-    public static DBAuditUserStorage getInstance() {
-        return instance;
     }
 }

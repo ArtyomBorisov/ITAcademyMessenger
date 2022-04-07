@@ -13,7 +13,7 @@
         <h3>Написать сообщение</h3>
         <c:if test="${!empty inf}">
             ${inf}
-            <c:set value="" var="inf" scope="session"/>
+            <c:set value="" var="inf" scope="request"/>
         </c:if>
         <form action="/Messenger/message" method="post">
             <p>Кому <input type="text" name="loginTo" required></p>

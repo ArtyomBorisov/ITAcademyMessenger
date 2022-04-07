@@ -7,20 +7,35 @@ import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.storage.sql.DBAuditUserStorage;
 import by.it.academy.homework_1.storage.sql.DBStorageMessage;
 import by.it.academy.homework_1.storage.sql.DBStorageUser;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SQLFactoryStorage implements IFactoryStorage {
+
+    private IStorageUser storageUser;
+    private IStorageMessage storageMessage;
+    private IAuditUserStorage auditUserStorage;
+
+    public SQLFactoryStorage(DBStorageUser storageUser,
+                             DBStorageMessage storageMessage,
+                             DBAuditUserStorage auditUserStorage) {
+        this.storageUser = storageUser;
+        this.storageMessage = storageMessage;
+        this.auditUserStorage = auditUserStorage;
+    }
+
     @Override
     public IStorageUser getStorageUser() {
-        return DBStorageUser.getInstance();
+        return this.storageUser;
     }
 
     @Override
     public IStorageMessage getStorageMessage() {
-        return DBStorageMessage.getInstance();
+        return this.storageMessage;
     }
 
     @Override
     public IAuditUserStorage getAuditUserStorage() {
-        return DBAuditUserStorage.getInstance();
+        return this.auditUserStorage;
     }
 }

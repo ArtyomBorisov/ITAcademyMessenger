@@ -8,8 +8,23 @@
         <welcome-file>mainPage.jsp</welcome-file>
     </welcome-file-list>
 
-    <listener>
-        <listener-class>by.it.academy.homework_1.controller.web.listeners.SessionListener</listener-class>
-    </listener>
+<!--    <listener>-->
+<!--        <listener-class>by.it.academy.homework_1.controller.web.listeners.SessionListener</listener-class>-->
+<!--    </listener>-->
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>mvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>mvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 
 </web-app>

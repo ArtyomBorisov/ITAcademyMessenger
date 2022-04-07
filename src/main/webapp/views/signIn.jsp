@@ -20,7 +20,7 @@
             <c:otherwise>
                 <c:if test="${!empty inf}">
                     ${inf}
-                    <c:set value="" var="inf" scope="session"/>
+                    <c:set value="" var="inf" scope="request"/>
                 </c:if>
                 <form action="/Messenger/signIn" method="post">
                     <p>Логин <input type="text" name="login" placeholder="Логин" required></p>

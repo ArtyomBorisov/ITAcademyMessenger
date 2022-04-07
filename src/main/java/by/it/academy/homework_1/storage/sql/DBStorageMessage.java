@@ -2,7 +2,7 @@ package by.it.academy.homework_1.storage.sql;
 
 import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.storage.api.IStorageMessage;
-import by.it.academy.homework_1.storage.sql.api.SQLDBInitializer;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -12,13 +12,13 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DBStorageMessage implements IStorageMessage {
 
-    private static final DBStorageMessage instance = new DBStorageMessage();
     private final DataSource dataSource;
 
-    private DBStorageMessage() {
-        this.dataSource = SQLDBInitializer.getInstance().getDataSource();
+    public DBStorageMessage(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -92,9 +92,5 @@ public class DBStorageMessage implements IStorageMessage {
         }
 
         return res;
-    }
-
-    public static DBStorageMessage getInstance() {
-        return instance;
     }
 }

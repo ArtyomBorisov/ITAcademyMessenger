@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 public class Main1 {
     public static void main(String[] args) {
-        HibernateStorageUser storageUser = HibernateStorageUser.getInstance();
+//        HibernateStorageUser storageUser = HibernateStorageUser.getInstance();
 
         User user = new User("login1", "pass", "fio", LocalDate.now(),  LocalDateTime.now());
 
-        storageUser.add(user);
+//        storageUser.add(user);
     }
 }

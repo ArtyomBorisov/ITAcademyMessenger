@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 public class Main3 {
     public static void main(String[] args) {
         //HibernateStorageUser storageUser = HibernateStorageUser.getInstance();
-        HibernateAuditUserStorage auditUserStorage = HibernateAuditUserStorage.getInstance();
+//        HibernateAuditUserStorage auditUserStorage = HibernateAuditUserStorage.getInstance();
         //HibernateStorageMessage storageMessage = HibernateStorageMessage.getInstance();
-        HibernateStorageUserWithAuditDecorator decorator = HibernateStorageUserWithAuditDecorator.getInstance();
+//        HibernateStorageUserWithAuditDecorator decorator = HibernateStorageUserWithAuditDecorator.getInstance();
 
         User user = new User("user1", "pass", "fio", LocalDate.now(),  LocalDateTime.now());
         //Message message = new Message("login", "login", "text", LocalDateTime.now());
@@ -25,6 +25,6 @@ public class Main3 {
         //storageUser.add(user);
         //storageMessage.add(message);
         //auditUserStorage.create(auditUser);
-        decorator.add(user);
+//        decorator.add(user);
     }
 }

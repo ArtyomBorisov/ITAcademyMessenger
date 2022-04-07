@@ -2,22 +2,23 @@ package by.it.academy.homework_1.view;
 
 import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.model.User;
-import by.it.academy.homework_1.storage.api.ChoiceFactoryStorage;
 import by.it.academy.homework_1.storage.api.IStorageMessage;
 import by.it.academy.homework_1.storage.api.IStorageUser;
 import by.it.academy.homework_1.view.api.IMessageService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MessageService implements IMessageService {
-    private static final MessageService instance = new MessageService();
 
     private final IStorageMessage storageMessage;
     private final IStorageUser storageUser;
 
-    private MessageService() {
-        this.storageMessage = ChoiceFactoryStorage.getInstance().getStorageMessage();
-        this.storageUser = ChoiceFactoryStorage.getInstance().getStorageUser();
+    public MessageService(IStorageMessage storageMessage,
+                          IStorageUser storageUser) {
+        this.storageMessage = storageMessage;
+        this.storageUser = storageUser;
     }
 
     @Override
@@ -46,9 +47,5 @@ public class MessageService implements IMessageService {
         if (user == null) {
             throw new IllegalArgumentException("Нет такого пользователя");
         }
-    }
-
-    public static MessageService getInstance() {
-        return instance;
     }
 }

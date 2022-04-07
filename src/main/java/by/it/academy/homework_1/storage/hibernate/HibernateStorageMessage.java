@@ -3,8 +3,11 @@ package by.it.academy.homework_1.storage.hibernate;
 import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.storage.api.IStorageMessage;
 import by.it.academy.homework_1.storage.hibernate.api.HibernateDBInitializer;
+import by.it.academy.homework_1.storage.hibernate.api.IMapper;
 import by.it.academy.homework_1.storage.hibernate.api.entity.MessageEntity;
 import by.it.academy.homework_1.storage.hibernate.api.mapper.MessageMapper;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -14,10 +17,13 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class HibernateStorageMessage implements IStorageMessage {
-    private static final HibernateStorageMessage instance = new HibernateStorageMessage();
 
-    private HibernateStorageMessage() {
+    private IMapper<Message, MessageEntity> messageMapper;
+
+    public HibernateStorageMessage(@Lazy MessageMapper messageMapper) {
+        this.messageMapper = messageMapper;
     }
 
     @Override
@@ -28,14 +34,13 @@ public class HibernateStorageMessage implements IStorageMessage {
         CriteriaBuilder cb = manager.getCriteriaBuilder();
         CriteriaQuery<MessageEntity> query = cb.createQuery(MessageEntity.class);
         Root<MessageEntity> root = query.from(MessageEntity.class);
-        query.select(root).where(root.get("userTo").in(loginUser));
+        query.select(root).where(root.get("userTo").get("login").in(loginUser));
         List<Message> data = new ArrayList<>();
 
         try {
             List<MessageEntity> entities = manager.createQuery(query).getResultList();
-            MessageMapper mapper = new MessageMapper();
             for (MessageEntity entity : entities) {
-                data.add(mapper.toDto(entity));
+                data.add(messageMapper.toDto(entity));
             }
         } catch (NoResultException e) {
         }
@@ -51,8 +56,7 @@ public class HibernateStorageMessage implements IStorageMessage {
         EntityManager manager = HibernateDBInitializer.getInstance().getManager();
         manager.getTransaction().begin();
 
-        MessageMapper mapper = new MessageMapper();
-        MessageEntity messageEntity = mapper.toEntity(message);
+        MessageEntity messageEntity = messageMapper.toEntity(message);
 
         manager.persist(messageEntity);
 
@@ -75,9 +79,5 @@ public class HibernateStorageMessage implements IStorageMessage {
         manager.close();
 
         return result;
-    }
-
-    public static HibernateStorageMessage getInstance() {
-        return instance;
     }
 }
