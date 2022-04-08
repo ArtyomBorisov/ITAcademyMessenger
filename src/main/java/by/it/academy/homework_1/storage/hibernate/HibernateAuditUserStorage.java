@@ -10,6 +10,7 @@ import by.it.academy.homework_1.storage.hibernate.api.mapper.AuditUserMapper;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -40,7 +41,7 @@ public class HibernateAuditUserStorage implements IHibernateAuditUserStorage {
 
         AuditUserMapper mapper = new AuditUserMapper();
         AuditUserEntity auditUserEntity = mapper.toEntity(auditUser);
-        auditUserEntity.setUser(manager.find(UserEntity.class, auditUser.getUser().getId()));
+        auditUserEntity.setUser(manager.find(UserEntity.class, auditUser.getUser().getLogin()));
 
         manager.persist(auditUserEntity);
 
@@ -70,10 +71,14 @@ public class HibernateAuditUserStorage implements IHibernateAuditUserStorage {
         Root<AuditUserEntity> root = query.from(AuditUserEntity.class);
         query.select(root);
 
-        List<AuditUserEntity> entities = manager.createQuery(query)
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
+        TypedQuery<AuditUserEntity> temp = manager.createQuery(query);
+        if (offset != null) {
+            temp.setFirstResult(offset);
+        }
+        if (limit != null) {
+            temp.setMaxResults(limit);
+        }
+        List<AuditUserEntity> entities = temp.getResultList();
 
         manager.getTransaction().commit();
 

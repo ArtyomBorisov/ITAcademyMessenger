@@ -33,7 +33,7 @@ public class DBStorageMessage implements IStorageMessage {
                      "    date_trunc('seconds', send_date),\n" +
                      "    text\n" +
                      "FROM\n" +
-                     "    app.messages\n" +
+                     "    app.message\n" +
                      "WHERE\n" +
                      "    \"to\" = '" +
                      loginUser + "'"))
@@ -63,7 +63,7 @@ public class DBStorageMessage implements IStorageMessage {
     public void add(Message message) {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement statement = conn.prepareStatement(
-                     "INSERT INTO app.messages (\"from\", \"to\", send_date, text) " +
+                     "INSERT INTO app.message (\"from\", \"to\", send_date, text) " +
                              "VALUES (?, ?, ?, ?)")) {
             statement.setString(1, message.getUserFrom());
             statement.setString(2, message.getUserTo());
@@ -82,7 +82,7 @@ public class DBStorageMessage implements IStorageMessage {
 
         try (Connection conn = dataSource.getConnection();
              Statement statement = conn.createStatement();
-             ResultSet rs = statement.executeQuery("SELECT count(*) FROM app.messages"))
+             ResultSet rs = statement.executeQuery("SELECT count(*) FROM app.message"))
         {
             while (rs.next()) {
                 res = rs.getLong(1);

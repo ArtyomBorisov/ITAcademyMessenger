@@ -34,7 +34,7 @@ public class DBStorageUser implements IDBStorageUser {
                      "    fio,\n" +
                      "    birthday\n" +
                      "FROM\n" +
-                     "    app.users\n" +
+                     "    app.user\n" +
                      "WHERE\n" +
                      "    login ='" +
                      login + "'"))
@@ -77,7 +77,7 @@ public class DBStorageUser implements IDBStorageUser {
         }
 
         try (PreparedStatement statement = conn.prepareStatement(
-                     "INSERT INTO app.users (login, \"password\", date_reg, fio, birthday) " +
+                     "INSERT INTO app.user (login, \"password\", date_reg, fio, birthday) " +
                              "VALUES (?, ?, ?, ?, ?);"))
         {
             statement.setString(1, user.getLogin());
@@ -99,7 +99,7 @@ public class DBStorageUser implements IDBStorageUser {
 
         try (Connection conn = dataSource.getConnection();
              Statement statement = conn.createStatement();
-             ResultSet rs = statement.executeQuery("SELECT count(*) FROM app.users"))
+             ResultSet rs = statement.executeQuery("SELECT count(*) FROM app.user"))
         {
             while (rs.next()) {
                 res = rs.getLong(1);

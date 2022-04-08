@@ -14,8 +14,7 @@
     <import resource="applicationContext.xml"/>
 
     <mvc:annotation-driven />
-    <context:component-scan base-package="by.it.academy.homework_1.controller.web.controllers,
-    by.it.academy.homework_1.view" />
+    <context:component-scan base-package="by.it.academy.homework_1.controller.web.controllers" />
 
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver">

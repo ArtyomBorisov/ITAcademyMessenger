@@ -18,22 +18,20 @@ public class ChoiceFactoryStorage implements IFactoryStorage {
                                 SQLFactoryDecoratorStorage sqlFactoryDecoratorStorage,
                                 HibernateFactoryStorage hibernateFactoryStorage,
                                 HibernateFactoryDecoratorStorage hibernateFactoryDecoratorStorage) {
-        type = type.toLowerCase();
-
-        switch (type) {
+        switch (type.toLowerCase()) {
             case "memory":
                 this.factoryStorage = memoryFactoryStorage;
                 break;
             case "sql":
                 this.factoryStorage = sqlFactoryStorage;
                 break;
-            case "sql_decorator":
+            case "sql_with_audit":
                 this.factoryStorage = sqlFactoryDecoratorStorage;
                 break;
             case "hibernate":
                 this.factoryStorage = hibernateFactoryStorage;
                 break;
-            case "hibernate_decorator":
+            case "hibernate_with_audit":
                 this.factoryStorage = hibernateFactoryDecoratorStorage;
                 break;
             default:

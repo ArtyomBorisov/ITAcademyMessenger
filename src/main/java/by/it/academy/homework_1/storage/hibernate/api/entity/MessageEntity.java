@@ -4,10 +4,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(schema = "app", name = "messages")
+@Table(schema = "app", name = "message")
 public class MessageEntity {
     private Long id;
-
     private UserEntity userFrom;
     private UserEntity userTo;
     private String textMessage;

@@ -6,7 +6,6 @@ import by.it.academy.homework_1.storage.hibernate.api.HibernateDBInitializer;
 import by.it.academy.homework_1.storage.hibernate.api.IMapper;
 import by.it.academy.homework_1.storage.hibernate.api.entity.MessageEntity;
 import by.it.academy.homework_1.storage.hibernate.api.mapper.MessageMapper;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -19,10 +18,9 @@ import java.util.List;
 
 @Component
 public class HibernateStorageMessage implements IStorageMessage {
-
     private IMapper<Message, MessageEntity> messageMapper;
 
-    public HibernateStorageMessage(@Lazy MessageMapper messageMapper) {
+    public HibernateStorageMessage(MessageMapper messageMapper) {
         this.messageMapper = messageMapper;
     }
 

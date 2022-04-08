@@ -10,15 +10,12 @@ public class UserMapper implements IMapper<User, UserEntity> {
         if (userEntity == null) {
             return null;
         }
-        User user = new User(
+        return new User(
                 userEntity.getLogin(),
                 userEntity.getPassword(),
                 userEntity.getPassword(),
                 userEntity.getBirthday(),
                 userEntity.getRegistration());
-        user.setId(userEntity.getId());
-
-        return user;
     }
 
     @Override
@@ -27,7 +24,6 @@ public class UserMapper implements IMapper<User, UserEntity> {
             return null;
         }
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(user.getId());
         userEntity.setLogin(user.getLogin());
         userEntity.setPassword(user.getPassword());
         userEntity.setName(user.getName());

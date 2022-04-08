@@ -23,7 +23,7 @@ public class AuditUserEntity {
         this.id = id;
     }
 
-    @Column(name = "date_create", nullable = false)
+    @Column(name = "dt_create", nullable = false)
     public LocalDateTime getDtCreate() {
         return dtCreate;
     }
@@ -42,7 +42,7 @@ public class AuditUserEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "\"user\"", nullable = false)
     public UserEntity getUser() {
         return user;
     }
@@ -52,7 +52,7 @@ public class AuditUserEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author")
     public UserEntity getAuthor() {
         return author;
     }

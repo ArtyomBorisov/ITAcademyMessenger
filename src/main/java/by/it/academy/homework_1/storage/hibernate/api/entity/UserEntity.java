@@ -5,10 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(schema = "app", name = "users")
+@Table(schema = "app", name = "user")
 public class UserEntity {
-    private Long id;
-
     private String login;
     private String password;
     private String name;
@@ -16,16 +14,6 @@ public class UserEntity {
     private LocalDateTime registration;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Column(name = "login", unique = true, nullable = false)
     public String getLogin() {
         return login;

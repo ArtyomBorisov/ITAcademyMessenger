@@ -1,20 +1,14 @@
 package by.it.academy.homework_1.storage.hibernate.api.mapper;
 
 import by.it.academy.homework_1.model.Message;
-import by.it.academy.homework_1.storage.api.IStorageUser;
+import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.storage.hibernate.api.IMapper;
 import by.it.academy.homework_1.storage.hibernate.api.entity.MessageEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MessageMapper implements IMapper<Message, MessageEntity> {
-
     private UserMapper userMapper = new UserMapper();
-    private IStorageUser storageUser;
-
-    public MessageMapper(IStorageUser storageUser) {
-        this.storageUser = storageUser;
-    }
 
     @Override
     public Message toDto (MessageEntity messageEntity) {
@@ -38,9 +32,11 @@ public class MessageMapper implements IMapper<Message, MessageEntity> {
         }
         MessageEntity messageEntity = new MessageEntity();
         messageEntity.setUserTo(
-                userMapper.toEntity(this.storageUser.get(message.getUserTo())));
+                userMapper.toEntity(
+                        User.Builder.createBuilder().setLogin(message.getUserTo()).build()));
         messageEntity.setUserFrom(
-                userMapper.toEntity(this.storageUser.get(message.getUserFrom())));
+                userMapper.toEntity(
+                        User.Builder.createBuilder().setLogin(message.getUserFrom()).build()));
         messageEntity.setTextMessage(message.getTextMessage());
         messageEntity.setTimeSending(message.getTimeSending());
         messageEntity.setId(message.getId());

@@ -44,7 +44,7 @@ public class DBAuditUserStorage implements IDBAuditUserStorage {
             throw new IllegalArgumentException("Аудит не может быть null");
         }
 
-        String sql = "INSERT INTO app.audit_users(text, author, dt_create, \"user\")\n" +
+        String sql = "INSERT INTO app.audit_user(text, author, dt_create, \"user\")\n" +
                 "\tVALUES (?, ?, ?, ?);";
         try (PreparedStatement ps = conn.prepareStatement(sql, new String[]{"id"});
         ) {
@@ -97,9 +97,9 @@ public class DBAuditUserStorage implements IDBAuditUserStorage {
                 "    author.fio AS author_fio,\n" +
                 "    author.birthday AS author_birthday\n" +
                 "FROM\n" +
-                "    app.audit_users AS audit\n" +
-                "    LEFT JOIN app.users AS author ON audit.author = author.login\n" +
-                "    LEFT JOIN app.users AS obj ON audit.author = obj.login";
+                "    app.audit_user AS audit\n" +
+                "    LEFT JOIN app.user AS author ON audit.author = author.login\n" +
+                "    LEFT JOIN app.user AS obj ON audit.author = obj.login";
 
         if (limit != null) {
             sql += "\n LIMIT " + limit;
@@ -112,7 +112,6 @@ public class DBAuditUserStorage implements IDBAuditUserStorage {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql))
         {
-            int index = 1;
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Long id = rs.getLong("audit_id");
