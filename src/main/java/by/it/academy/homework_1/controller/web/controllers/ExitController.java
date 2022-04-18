@@ -15,6 +15,6 @@ public class ExitController {
             session.invalidate();
         }
 
-        return "mainPage";
+        return "redirect:/";
     }
 }

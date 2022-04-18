@@ -17,6 +17,9 @@
         </c:if>
         <c:choose>
             <c:when test="${sessionScope.user != null}">
+                <p><input type="button" onclick="location.href='/Messenger/profile';"
+                                    value="Просмотреть профиль"></p>
+
                 <p><input type="button" onclick="location.href='/Messenger/message';"
                     value="Отправить сообщение"></p>
 
@@ -28,6 +31,10 @@
 
                 <form action="/Messenger/exit">
                     <p><input type="submit" value="Выйти"></p>
+                </form>
+
+                <form action="/Messenger/deleteAccount" method="post">
+                    <p><input type="submit" value="Удалить аккаунт"></p>
                 </form>
             </c:when>
             <c:otherwise>

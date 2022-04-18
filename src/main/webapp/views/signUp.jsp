@@ -26,7 +26,7 @@
                     <p>Логин <input type="text" name="login" placeholder="Логин" required></p>
                     <p>Пароль <input type="password" name="password" placeholder="Пароль" required></p>
                     <p>ФИО <input type="text" name="name"  placeholder="ФИО" required></p>
-                    <p>Дата рождения <input type="date" name="birthday"  placeholder="Дата рождения" required></p>
+                    <p>Дата рождения <input type="date" name="birthday"  placeholder="Дата рождения"></p>
                     <p><input type="submit"  value="Зарегистрироваться"></p>
                     <p><input type="button" onclick="location.href='/Messenger/mainPage';"
                         value="На главную"></p>

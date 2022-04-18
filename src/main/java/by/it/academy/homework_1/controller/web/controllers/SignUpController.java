@@ -1,7 +1,7 @@
 package by.it.academy.homework_1.controller.web.controllers;
 
 import by.it.academy.homework_1.model.User;
-import by.it.academy.homework_1.view.api.IUserService;
+import by.it.academy.homework_1.services.api.IUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,24 +33,24 @@ public class SignUpController {
     public String create(@RequestParam(name = "login") String login,
                          @RequestParam(name = "password") String password,
                          @RequestParam(name = "name") String name,
-                         @RequestParam(name = "birthday") String birthdayRaw,
+                         @RequestParam(name = "birthday", required = false) String birthdayRaw,
                          HttpSession session,
                          Model model) {
-
-        LocalDate birthday;
-        try {
-            birthday = LocalDate.parse(birthdayRaw);
-        } catch (DateTimeParseException e) {
-            birthday = null;
+        LocalDate birthday = null;
+        if (birthdayRaw != null) {
+            try {
+                birthday = LocalDate.parse(birthdayRaw);
+            } catch (DateTimeParseException e) {
+            }
         }
 
         User user = new User(login, password, name, birthday);
 
         try {
             userService.signUp(user);
-            session.setAttribute("user", login);
+            session.setAttribute("user", user);
             model.addAttribute(INFORM_KEY, "Аккаунт успешно создан.");
-            return "mainPage";
+            return "redirect:/";
         } catch (IllegalArgumentException e){
             model.addAttribute(INFORM_KEY, e.getMessage());
             return URL_FORWARD_KEY;

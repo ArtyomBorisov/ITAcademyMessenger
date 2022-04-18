@@ -1,6 +1,6 @@
 package by.it.academy.homework_1.controller.web.controllers;
 
-import by.it.academy.homework_1.view.api.IStatisticsService;
+import by.it.academy.homework_1.services.api.IStatisticsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

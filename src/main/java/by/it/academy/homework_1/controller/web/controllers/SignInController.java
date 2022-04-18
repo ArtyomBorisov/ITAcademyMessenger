@@ -1,6 +1,7 @@
 package by.it.academy.homework_1.controller.web.controllers;
 
-import by.it.academy.homework_1.view.api.IAuthService;
+import by.it.academy.homework_1.services.api.IAuthService;
+import by.it.academy.homework_1.services.api.IUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +15,12 @@ import javax.servlet.http.HttpSession;
 public class SignInController {
 
     private final IAuthService authService;
+    private final IUserService userService;
     private final String URL_FORWARD_KEY = "signIn";
 
-    public SignInController(IAuthService authService) {
+    public SignInController(IAuthService authService, IUserService userService) {
         this.authService = authService;
+        this.userService = userService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -35,8 +38,8 @@ public class SignInController {
             model.addAttribute("inf", "Логин и(или) пароль неверные(ый)");
             return URL_FORWARD_KEY;
         } else {
-            session.setAttribute("user", login);
-            return "mainPage";
+            session.setAttribute("user", userService.get(login));
+            return "redirect:/";
         }
     }
 }

@@ -20,7 +20,7 @@
              <c:forEach var="item" items="${sessionScope.messages}">
                  <tr>
                     <th>${item.timeSending}</th>
-                    <th>${item.userFrom}</th>
+                    <th>${item.userFrom.login}</th>
                     <th>${item.textMessage}</th>
                  </tr>
              </c:forEach>

@@ -5,7 +5,7 @@
     <display-name>Messenger</display-name>
 
     <welcome-file-list>
-        <welcome-file>mainPage.jsp</welcome-file>
+        <welcome-file>views/mainPage.jsp</welcome-file>
     </welcome-file-list>
 
 <!--    <listener>-->

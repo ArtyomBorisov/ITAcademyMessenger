@@ -5,12 +5,12 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-  http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+  http://www.springframework.org/schema/beans/spring-beans.xsd
   http://www.springframework.org/schema/context
-  http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+  http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:property-placeholder location="classpath:/database.properties" />
-    <context:component-scan base-package="by.it.academy.homework_1.storage, by.it.academy.homework_1.view" />
+    <context:component-scan base-package="by.it.academy.homework_1.dao, by.it.academy.homework_1.services" />
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="${jdbc.driverClassName}" />
@@ -25,8 +25,16 @@
     <bean id="storageMessage" factory-bean="choiceFactoryStorage" factory-method="getStorageMessage"/>
     <bean id="auditUserStorage" factory-bean="choiceFactoryStorage" factory-method="getAuditUserStorage"/>
 
-<!--    value: memory, sql, sql_with_audit, hibernate, hibernate_with_audit-->
-    <bean id="choiceFactoryStorage" class="by.it.academy.homework_1.storage.api.ChoiceFactoryStorage">
-        <constructor-arg name="type" value="hibernate_with_audit"/>
+    <bean id="choiceFactoryStorage" class="by.it.academy.homework_1.dao.api.ChoiceFactoryStorage">
+        <constructor-arg name="choiceType" value="${choiceType}"/>
+        <constructor-arg>
+            <map>
+                <entry key="memory" value-ref="${memory}"/>
+                <entry key="sql" value-ref="${sql}"/>
+                <entry key="sql_with_audit" value-ref="${sql_with_audit}"/>
+                <entry key="hibernate" value-ref="${hibernate}"/>
+                <entry key="hibernate_with_audit" value-ref="${hibernate_with_audit}"/>
+            </map>
+        </constructor-arg>
     </bean>
 </beans>

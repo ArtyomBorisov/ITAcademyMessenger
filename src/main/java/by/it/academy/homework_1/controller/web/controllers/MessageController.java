@@ -1,23 +1,26 @@
 package by.it.academy.homework_1.controller.web.controllers;
 
 import by.it.academy.homework_1.model.Message;
-import by.it.academy.homework_1.view.api.IMessageService;
+import by.it.academy.homework_1.model.User;
+import by.it.academy.homework_1.services.api.IMessageService;
+import by.it.academy.homework_1.services.api.IUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/message")
 public class MessageController {
 
     private final IMessageService messageService;
+    private final IUserService userService;
     private final String INFORM_KEY = "inf";
     private final String URL_FORWARD_KEY = "message";
 
-    public MessageController(IMessageService messageService) {
+    public MessageController(IMessageService messageService,
+                             IUserService userService) {
         this.messageService = messageService;
+        this.userService = userService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -26,7 +29,7 @@ public class MessageController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@SessionAttribute(name = "user", required = false) String loginFrom,
+    public String create(@SessionAttribute(name = "user", required = false) User user,
                          @RequestParam(name = "loginTo") String loginTo,
                          @RequestParam(name = "messageText") String messageText,
                          Model model) {
@@ -36,7 +39,8 @@ public class MessageController {
         }
 
         try {
-            messageService.add(new Message(loginFrom, loginTo, messageText, LocalDateTime.now()));
+            messageService.add(new Message(
+                    user, userService.get(loginTo), messageText, null));
             model.addAttribute(INFORM_KEY, "Сообщение отправлено");
             return "mainPage";
         } catch (IllegalArgumentException e) {
