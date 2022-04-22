@@ -24,7 +24,6 @@ public class ChatsController {
     @RequestMapping(method = RequestMethod.GET)
     public String index(@SessionAttribute(name = "user", required = false) User user,
                         HttpSession session) {
-
         if (user == null) {
             throw new SecurityException("Ошибка безопасности");
         }

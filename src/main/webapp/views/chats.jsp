@@ -3,6 +3,7 @@
         pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <html lang="ru">
     <head>
@@ -19,7 +20,7 @@
              </tr>
              <c:forEach var="item" items="${sessionScope.messages}">
                  <tr>
-                    <th>${item.timeSending}</th>
+                    <th><tags:localDateTime date="${item.timeSending}"/></th>
                     <th>${item.userFrom.login}</th>
                     <th>${item.textMessage}</th>
                  </tr>

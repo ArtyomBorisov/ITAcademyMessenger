@@ -1,8 +1,11 @@
 package by.it.academy.homework_1.services.api;
 
+import by.it.academy.homework_1.dao.api.EssenceNotFound;
 import by.it.academy.homework_1.model.User;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 public interface IUserService {
     /**
@@ -24,5 +27,7 @@ public interface IUserService {
      */
     User get(String login);
 
-    void delete(String login, LocalDateTime lastUpdate);
+    Collection<User> getAll();
+
+    User update(User user, String login, LocalDateTime lastUpdate);
 }

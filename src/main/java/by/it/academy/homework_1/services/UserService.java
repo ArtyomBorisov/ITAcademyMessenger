@@ -4,10 +4,13 @@ import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.dao.api.IStorageUser;
 import by.it.academy.homework_1.services.api.IUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Service
+@Transactional(readOnly = true)
 public class UserService implements IUserService {
 
     private final IStorageUser storageUser;
@@ -17,6 +20,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public void signUp(User user) {
         this.validationForSignUp(user);
 
@@ -36,9 +40,6 @@ public class UserService implements IUserService {
         }
         if (this.nullOrEmpty(user.getName())){
             errorMessage += "ФИО обязательно для заполнения. ";
-        }
-        if (user.getBirthday() == null){
-            errorMessage += "Дата рождения обязательна для заполнения. ";
         }
         if (!errorMessage.isEmpty()){
             throw new IllegalArgumentException(errorMessage);
@@ -60,7 +61,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void delete(String login, LocalDateTime lastUpdate) {
-        this.storageUser.delete(login, lastUpdate);
+    public Collection<User> getAll() {
+        return this.storageUser.getAll();
+    }
+
+    @Override
+    public User update(User user, String login, LocalDateTime lastUpdate) {
+        user.setLastUpdate(LocalDateTime.now());
+        return this.storageUser.update(user, login, lastUpdate);
     }
 }

@@ -4,22 +4,20 @@ import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.dao.api.IStorageMessage;
 import by.it.academy.homework_1.services.api.IMessageService;
-import by.it.academy.homework_1.services.api.IUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class MessageService implements IMessageService {
 
     private final IStorageMessage storageMessage;
-    private final IUserService userService;
 
-    public MessageService(IStorageMessage storageMessage,
-                          IUserService userService) {
+    public MessageService(IStorageMessage storageMessage) {
         this.storageMessage = storageMessage;
-        this.userService = userService;
     }
 
     @Override
@@ -33,6 +31,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
+    @Transactional
     public void add(Message message) {
         this.validationForMessage(message);
         LocalDateTime now = LocalDateTime.now();

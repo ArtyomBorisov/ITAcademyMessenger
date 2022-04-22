@@ -4,12 +4,14 @@ import by.it.academy.homework_1.services.api.IMessageService;
 import by.it.academy.homework_1.services.api.IStatisticsService;
 import by.it.academy.homework_1.services.api.IUserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@Transactional(readOnly = true)
 public class StatisticsService implements IStatisticsService {
 
     private final AtomicLong sessionCounter;

@@ -26,21 +26,16 @@
                 <p><input type="button" onclick="location.href='/Messenger/chats';"
                     value="Просмотреть сообщения"></p>
 
-                <p><input type="button" onclick="location.href='/Messenger/statistics';"
-                                    value="Статистика"></p>
+                <c:if test="${sessionScope.user.login == 'admin'}">
+                    <p><input type="button" onclick="location.href='/Messenger/admin';"
+                                        value="Админка"></p>
+                </c:if>
 
                 <form action="/Messenger/exit">
                     <p><input type="submit" value="Выйти"></p>
                 </form>
-
-                <form action="/Messenger/deleteAccount" method="post">
-                    <p><input type="submit" value="Удалить аккаунт"></p>
-                </form>
             </c:when>
             <c:otherwise>
-                <p><input type="button" onclick="location.href='/Messenger/statistics';"
-                    value="Статистика"></p>
-
                 <p><input type="button" onclick="location.href='/Messenger/signUp';"
                     value="Зарегистрироваться"></p>
 

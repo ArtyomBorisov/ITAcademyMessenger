@@ -6,7 +6,6 @@ import by.it.academy.homework_1.model.AuditUser;
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.dao.api.IStorageUser;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -33,7 +32,6 @@ public class DBStorageUserWithAuditDecorator implements IStorageUser {
         return this.storageUser.getAll();
     }
 
-//    @Transactional(rollbackFor = Exception.class)
     @Override
     public User create(User user) {
         this.storageUser.create(user);
@@ -55,15 +53,14 @@ public class DBStorageUserWithAuditDecorator implements IStorageUser {
     }
 
     @Override
-    public User update(User user, String id, LocalDateTime lastUpdate) throws EssenceNotFound {
-        this.storageUser.update(user, id, lastUpdate);
+    public User update(User user, String login, LocalDateTime lastUpdate) throws EssenceNotFound {
+        this.storageUser.update(user, login, lastUpdate);
 
-        LocalDateTime now = LocalDateTime.now();
         AuditUser auditUser = new AuditUser();
-        auditUser.setDtCreate(now);
-        auditUser.setText("Обновление пользователя");
+        auditUser.setDtCreate(user.getLastUpdate());
+        auditUser.setText("Обновление");
         auditUser.setUser(user);
-        auditUser.setLastUpdate(now);
+        auditUser.setLastUpdate(user.getLastUpdate());
 
         this.auditUserStorage.create(auditUser);
 
@@ -71,14 +68,14 @@ public class DBStorageUserWithAuditDecorator implements IStorageUser {
     }
 
     @Override
-    public void delete(String id, LocalDateTime lastUpdate) throws EssenceNotFound {
-        this.storageUser.delete(id, lastUpdate);
+    public void delete(String login, LocalDateTime lastUpdate) throws EssenceNotFound {
+        this.storageUser.delete(login, lastUpdate);
 
         LocalDateTime now = LocalDateTime.now();
         AuditUser auditUser = new AuditUser();
         auditUser.setDtCreate(now);
-        auditUser.setText("Удаление пользователя");
-        auditUser.setUser(this.storageUser.get(id));
+        auditUser.setText("Удаление");
+        auditUser.setUser(this.storageUser.get("deleted"));
         auditUser.setLastUpdate(now);
 
         this.auditUserStorage.create(auditUser);

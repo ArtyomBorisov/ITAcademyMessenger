@@ -1,6 +1,7 @@
 package by.it.academy.homework_1.dao.hibernate;
 
 import by.it.academy.homework_1.dao.api.EssenceNotFound;
+import by.it.academy.homework_1.dao.hibernate.api.entity.UserEntity;
 import by.it.academy.homework_1.model.Message;
 import by.it.academy.homework_1.dao.api.IStorageMessage;
 import by.it.academy.homework_1.dao.hibernate.api.HibernateDBInitializer;
@@ -10,9 +11,7 @@ import by.it.academy.homework_1.dao.hibernate.api.mapper.MessageMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,11 +87,55 @@ public class HibernateStorageMessage implements IStorageMessage {
 
     @Override
     public Message update(Message message, Long id, LocalDateTime lastUpdate) throws EssenceNotFound {
-        return null;
+        EntityManager manager = HibernateDBInitializer.getInstance().getManager();
+        try {
+            manager.getTransaction().begin();
+            CriteriaBuilder cb = manager.getCriteriaBuilder();
+            CriteriaUpdate<MessageEntity> criteriaUpdate = cb.createCriteriaUpdate(MessageEntity.class);
+            Root<MessageEntity> root = criteriaUpdate.from(MessageEntity.class);
+            criteriaUpdate.set("text", message.getTextMessage());
+            criteriaUpdate.set("dt_update", message.getLastUpdate());
+
+            criteriaUpdate.where(cb.equal(root.get("id"), id))
+                    .where(cb.equal(root.get("lastUpdate"), lastUpdate));
+
+            int update = manager.createQuery(criteriaUpdate).executeUpdate();
+            manager.getTransaction().commit();
+
+            if (update == 0) {
+                throw new EssenceNotFound("Не удалось обновить сообщение с id \"" + id + "\"");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка выполнения SQL", e);
+        } finally {
+            manager.close();
+        }
+
+        return message;
     }
 
     @Override
     public void delete(Long id, LocalDateTime lastUpdate) throws EssenceNotFound {
+        EntityManager manager = HibernateDBInitializer.getInstance().getManager();
+        try {
+            manager.getTransaction().begin();
+            CriteriaBuilder cb = manager.getCriteriaBuilder();
+            CriteriaDelete<MessageEntity> criteriaDelete = cb.createCriteriaDelete(MessageEntity.class);
+            Root<MessageEntity> root = criteriaDelete.from(MessageEntity.class);
 
+            criteriaDelete.where(cb.equal(root.get("id"), id))
+                    .where(cb.equal(root.get("lastUpdate"), lastUpdate));
+
+            int update = manager.createQuery(criteriaDelete).executeUpdate();
+            manager.getTransaction().commit();
+
+            if (update == 0) {
+                throw new EssenceNotFound("Не удалось удалить сообщение с id \"" + id + "\"");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка выполнения SQL", e);
+        } finally {
+            manager.close();
+        }
     }
 }

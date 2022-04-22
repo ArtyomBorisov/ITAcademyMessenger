@@ -125,7 +125,6 @@ public class DBStorageUser implements IStorageUser {
                 "    PASSWORD = :PASSWORD,\n" +
                 "    fio = :fio,\n" +
                 "    birthday = :birthday,\n" +
-                "    dt_reg = :dt_reg,\n" +
                 "    dt_update = :dt_update\n" +
                 "WHERE\n" +
                 "    login = :login\n" +

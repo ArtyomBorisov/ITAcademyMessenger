@@ -7,35 +7,43 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 @Controller
-@RequestMapping("/signUp")
-public class SignUpController {
+@RequestMapping("/editProfile")
+public class EditProfileController {
 
     private final IUserService userService;
-    private final String INFORM_KEY = "inf";
-    private final String URL_FORWARD_KEY = "signUp";
 
-    public SignUpController(IUserService userService) {
+    public EditProfileController(IUserService userService) {
         this.userService = userService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index() {
-        return URL_FORWARD_KEY;
+    public String index(@SessionAttribute(name = "user", required = false) User user) {
+        if (user == null) {
+            throw new SecurityException("Ошибка безопасности");
+        }
+
+        return "editProfile";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@RequestParam(name = "login") String login,
+    public String update(@SessionAttribute(name = "user", required = false) User user,
                          @RequestParam(name = "password") String password,
                          @RequestParam(name = "name") String name,
                          @RequestParam(name = "birthday", required = false) String birthdayRaw,
                          HttpSession session,
                          Model model) {
+        if (user == null) {
+            throw new SecurityException("Ошибка безопасности");
+        }
+
+
         LocalDate birthday = null;
         if (birthdayRaw != null) {
             try {
@@ -44,16 +52,12 @@ public class SignUpController {
             }
         }
 
-        User user = new User(login, password, name, birthday);
+        User userUpdate = new User(user.getLogin(), password, name, birthday);
 
-        try {
-            this.userService.signUp(user);
-            session.setAttribute("user", user);
-            model.addAttribute(INFORM_KEY, "Аккаунт успешно создан.");
-            return "redirect:/";
-        } catch (IllegalArgumentException e){
-            model.addAttribute(INFORM_KEY, e.getMessage());
-            return URL_FORWARD_KEY;
-        }
+        this.userService.update(userUpdate, user.getLogin(), user.getLastUpdate());
+
+        session.setAttribute("user", this.userService.get(user.getLogin()));
+        model.addAttribute("inf", "Данные успешно обновлены");
+        return "mainPage";
     }
 }

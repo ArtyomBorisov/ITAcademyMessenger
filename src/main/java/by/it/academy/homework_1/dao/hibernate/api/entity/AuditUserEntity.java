@@ -62,7 +62,7 @@ public class AuditUserEntity {
         this.author = author;
     }
 
-    @Column(name = "dr_update", nullable = false)
+    @Column(name = "dt_update", nullable = false)
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }

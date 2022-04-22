@@ -115,6 +115,71 @@ public class DBAuditUserStorage implements IAuditUserStorage {
     }
 
     @Override
+    public List<AuditUser> read() {
+        Pageable pageable = null;
+        return this.read(pageable);
+    }
+
+    @Override
+    public List<AuditUser> read(String login) {
+        return this.read(login, null);
+    }
+
+    @Override
+    public List<AuditUser> read(String login, Pageable pageable) {
+        Integer limit = null;
+        Integer offset = null;
+
+        if (pageable != null) {
+            if (pageable.getSize() > 0) {
+                limit = pageable.getSize();
+            }
+
+            if (limit != null && pageable.getPage() > 0) {
+                offset = (pageable.getPage() - 1) * limit;
+            }
+        }
+
+        List<AuditUser> data = new ArrayList<>();
+        String sql = "SELECT\n" +
+                "    audit.id,\n" +
+                "    audit.dt_create,\n" +
+                "    audit.text,\n" +
+                "    audit.user,\n" +
+                "    audit.author,\n" +
+                "    audit.dt_update,\n" +
+                "    user_obj.fio AS user_fio,\n" +
+                "    user_obj.birthday AS user_birthday,\n" +
+                "    user_obj.dt_reg AS user_dt_reg,\n" +
+                "    user_obj.dt_update AS user_dt_update,\n" +
+                "    author.fio AS author_fio,\n" +
+                "    author.birthday AS author_birthday,\n" +
+                "    author.dt_reg AS author_dt_reg,\n" +
+                "    author.dt_update AS author_dt_update\n" +
+                "FROM\n" +
+                "    app.audit_user AS audit\n" +
+                "    LEFT JOIN app.user AS user_obj ON audit.user = user_obj.login\n" +
+                "    LEFT JOIN app.user AS author ON audit.author = author.login\n" +
+                "WHERE audit.user = :login OR audit.author = :login";
+
+        if (limit != null) {
+            sql += "\n LIMIT " + limit;
+        }
+        if (offset != null) {
+            sql += "\n OFFSET " + offset;
+        }
+        sql += ";";
+
+        try {
+            MapSqlParameterSource params = new MapSqlParameterSource();
+            params.addValue("login", login);
+            return namedParameterJdbcTemplate.query(sql, params, mapper);
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка выполнения SQL ", e);
+        }
+    }
+
+    @Override
     public List<AuditUser> read(Pageable pageable) {
         Integer limit = null;
         Integer offset = null;
