@@ -1,33 +1,49 @@
 package by.it.academy.homework_1.services.api;
 
-import by.it.academy.homework_1.dao.api.EssenceNotFound;
 import by.it.academy.homework_1.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 public interface IUserService {
     /**
-     * метод регистрирует пользователя
+     * Регистрация пользователя
      * @param user пользователь
      */
     void signUp(User user);
 
     /**
-     * метод возвращает количество зарегистрированных пользователей
+     * Получение количества зарегистрированных пользователей
      * @return количество пользователей
      */
     long getCount();
 
     /**
-     * метод возвращает пользователя по логину
+     * Получение пользователя по логину
      * @param login логин
      * @return пользователь
      */
     User get(String login);
 
+    /**
+     * Получение всех пользователей
+     * @return коллекция пользователей
+     */
     Collection<User> getAll();
 
+    /**
+     * Обновление пользователя
+     * @param user пользователь с обновленными полями
+     * @param login логин
+     * @param lastUpdate дата/время последнего обновления
+     * @return
+     */
     User update(User user, String login, LocalDateTime lastUpdate);
+
+    /**
+     * Удаление пользователя по координатам
+     * @param login логин пользователя
+     * @param lastUpdate дата/время последнего обновления
+     */
+    void delete(String login, LocalDateTime lastUpdate);
 }

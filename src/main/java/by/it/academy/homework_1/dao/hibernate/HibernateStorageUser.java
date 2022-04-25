@@ -29,7 +29,9 @@ public class HibernateStorageUser implements IHibernateStorageUser {
             CriteriaBuilder cb = manager.getCriteriaBuilder();
             CriteriaQuery<UserEntity> query = cb.createQuery(UserEntity.class);
             Root<UserEntity> root = query.from(UserEntity.class);
-            query.select(root).where(root.get("login").in(login));
+            query.select(root).where(cb.and(
+                            root.get("login").in(login),
+                            cb.equal(root.get("accessible"), true)));
             UserEntity userEntity = manager.createQuery(query).getSingleResult();
             manager.getTransaction().commit();
 
@@ -136,9 +138,8 @@ public class HibernateStorageUser implements IHibernateStorageUser {
             criteriaUpdate.set("PASSWORD", user.getPassword())
                     .set("fio", user.getName())
                     .set("birthday", user.getBirthday())
-                    .set("dt_update", user.getLastUpdate());
-
-            criteriaUpdate.where(cb.equal(root.get("login"), login))
+                    .set("dt_update", user.getLastUpdate())
+                    .where(cb.equal(root.get("login"), login))
                     .where(cb.equal(root.get("lastUpdate"), lastUpdate));
 
             int update = manager.createQuery(criteriaUpdate).executeUpdate();
@@ -162,13 +163,13 @@ public class HibernateStorageUser implements IHibernateStorageUser {
         try {
             manager.getTransaction().begin();
             CriteriaBuilder cb = manager.getCriteriaBuilder();
-            CriteriaDelete<UserEntity> criteriaDelete = cb.createCriteriaDelete(UserEntity.class);
-            Root<UserEntity> root = criteriaDelete.from(UserEntity.class);
-
-            criteriaDelete.where(cb.equal(root.get("login"), login))
+            CriteriaUpdate<UserEntity> criteriaUpdate = cb.createCriteriaUpdate(UserEntity.class);
+            Root<UserEntity> root = criteriaUpdate.from(UserEntity.class);
+            criteriaUpdate.set("accessible", false)
+                    .where(cb.equal(root.get("login"), login))
                     .where(cb.equal(root.get("lastUpdate"), lastUpdate));
 
-            int update = manager.createQuery(criteriaDelete).executeUpdate();
+            int update = manager.createQuery(criteriaUpdate).executeUpdate();
             manager.getTransaction().commit();
 
             if (update == 0) {

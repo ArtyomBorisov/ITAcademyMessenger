@@ -18,6 +18,7 @@ public class UserRowMapper implements RowMapper<User> {
                 .setBirthday(rs.getObject("birthday", LocalDate.class))
                 .setRegistration(rs.getObject("dt_reg", LocalDateTime.class))
                 .setLastUpdate(rs.getObject("dt_update", LocalDateTime.class))
+                .setAccessible(rs.getBoolean("accessible"))
                 .build();
     }
 }

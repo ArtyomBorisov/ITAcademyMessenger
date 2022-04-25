@@ -10,8 +10,10 @@ public class User {
     private LocalDate birthday;
     private LocalDateTime registration;
     private LocalDateTime lastUpdate;
+    private boolean accessible;
 
     public User() {
+        this.accessible = true;
     }
 
     public User(String login, String password, String name, LocalDate birthday) {
@@ -19,6 +21,7 @@ public class User {
         this.password = password;
         this.name = name;
         this.birthday = birthday;
+        this.accessible = true;
     }
 
     public User(String login, String password, String name,
@@ -29,6 +32,7 @@ public class User {
         this.birthday = birthday;
         this.registration = registration;
         this.lastUpdate = lastUpdate;
+        this.accessible = true;
     }
 
     public String getLogin() {
@@ -79,6 +83,14 @@ public class User {
         this.lastUpdate = lastUpdate;
     }
 
+    public boolean isAccessible() {
+        return accessible;
+    }
+
+    public void setAccessible(boolean accessible) {
+        this.accessible = accessible;
+    }
+
     public static class Builder{
         private String login;
         private String password;
@@ -86,8 +98,10 @@ public class User {
         private LocalDate birthday;
         private LocalDateTime registration;
         private LocalDateTime lastUpdate;
+        private boolean accessible;
 
         private Builder() {
+            this.accessible = true;
         }
 
         public Builder setLogin(String login) {
@@ -117,6 +131,11 @@ public class User {
 
         public Builder setLastUpdate(LocalDateTime lastUpdate) {
             this.lastUpdate = lastUpdate;
+            return this;
+        }
+
+        public Builder setAccessible(boolean accessible) {
+            this.accessible = accessible;
             return this;
         }
 

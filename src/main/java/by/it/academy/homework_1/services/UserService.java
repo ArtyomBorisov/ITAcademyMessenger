@@ -70,4 +70,9 @@ public class UserService implements IUserService {
         user.setLastUpdate(LocalDateTime.now());
         return this.storageUser.update(user, login, lastUpdate);
     }
+
+    @Override
+    public void delete(String login, LocalDateTime lastUpdate) {
+        this.storageUser.delete(login, lastUpdate);
+    }
 }

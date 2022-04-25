@@ -13,6 +13,7 @@ public class UserEntity {
     private LocalDate birthday;
     private LocalDateTime registration;
     private LocalDateTime lastUpdate;
+    private boolean accessible;
 
     @Id
     @Column(name = "login")
@@ -67,5 +68,14 @@ public class UserEntity {
 
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    @Column(name = "accessible", nullable = false)
+    public boolean isAccessible() {
+        return accessible;
+    }
+
+    public void setAccessible(boolean accessible) {
+        this.accessible = accessible;
     }
 }

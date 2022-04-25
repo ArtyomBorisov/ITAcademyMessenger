@@ -45,6 +45,17 @@ public class MessageService implements IMessageService {
         return storageMessage.getCount();
     }
 
+    @Override
+    public Message update(Message message, Long id, LocalDateTime lastUpdate) {
+        message.setLastUpdate(LocalDateTime.now());
+        return this.storageMessage.update(message, id, lastUpdate);
+    }
+
+    @Override
+    public void delete(Long id, LocalDateTime lastUpdate) {
+        this.storageMessage.delete(id, lastUpdate);
+    }
+
     private void validationForMessage(Message message) {
         if (message.getUserTo() == null) {
             throw new IllegalArgumentException("Нет такого пользователя");

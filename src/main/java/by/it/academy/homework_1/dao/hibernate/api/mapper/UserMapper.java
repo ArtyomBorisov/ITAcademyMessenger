@@ -18,6 +18,7 @@ public class UserMapper implements IMapper<User, UserEntity> {
                 .setBirthday(userEntity.getBirthday())
                 .setLastUpdate(userEntity.getLastUpdate())
                 .setRegistration(userEntity.getRegistration())
+                .setAccessible(userEntity.isAccessible())
                 .build();
     }
 
@@ -35,6 +36,7 @@ public class UserMapper implements IMapper<User, UserEntity> {
         userEntity.setBirthday(user.getBirthday());
         userEntity.setLastUpdate(user.getLastUpdate());
         userEntity.setRegistration(user.getRegistration());
+        userEntity.setAccessible(user.isAccessible());
 
         return userEntity;
     }

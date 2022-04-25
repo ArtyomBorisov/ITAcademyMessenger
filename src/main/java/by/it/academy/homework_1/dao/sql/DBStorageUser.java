@@ -39,11 +39,13 @@ public class DBStorageUser implements IStorageUser {
                 "    fio,\n" +
                 "    birthday,\n" +
                 "    dt_reg,\n" +
-                "    dt_update\n" +
+                "    dt_update,\n" +
+                "    accessible\n" +
                 "FROM\n" +
                 "    app.\"user\"\n" +
                 "WHERE\n" +
-                "    login = :login;";
+                "    login = :login\n" +
+                "AND accessible = true;";
 
         try {
             MapSqlParameterSource params = new MapSqlParameterSource();
@@ -64,7 +66,8 @@ public class DBStorageUser implements IStorageUser {
                 "    fio,\n" +
                 "    birthday,\n" +
                 "    dt_reg,\n" +
-                "    dt_update\n" +
+                "    dt_update,\n" +
+                "    accessible\n" +
                 "FROM\n" +
                 "    app.\"user\";";
 
@@ -82,7 +85,7 @@ public class DBStorageUser implements IStorageUser {
         }
 
         String sql = "INSERT INTO app.\"user\" (login, PASSWORD, fio, birthday, dt_reg, dt_update)\n" +
-                "    VALUES (:login, :password, :fio, :birthday, :dt_reg, :dt_update);";
+                "    VALUES (:login, :password, :fio, :birthday, :dt_reg, :dt_update, :accessible);";
 
         try {
             MapSqlParameterSource params = new MapSqlParameterSource();
@@ -93,6 +96,7 @@ public class DBStorageUser implements IStorageUser {
             params.addValue("birthday", user.getBirthday());
             params.addValue("dt_reg", user.getRegistration());
             params.addValue("dt_update", user.getLastUpdate());
+            params.addValue("accessible", user.isAccessible());
 
             namedParameterJdbcTemplate.update(sql, params);
             return user;
@@ -121,7 +125,6 @@ public class DBStorageUser implements IStorageUser {
         String sql = "UPDATE\n" +
                 "    app.\"user\"\n" +
                 "SET\n" +
-                "    login = :login,\n" +
                 "    PASSWORD = :PASSWORD,\n" +
                 "    fio = :fio,\n" +
                 "    birthday = :birthday,\n" +
@@ -154,8 +157,12 @@ public class DBStorageUser implements IStorageUser {
     @Override
     public void delete(String login, LocalDateTime lastUpdate) throws EssenceNotFound {
         this.checkLoginAndLastUpdate(login, lastUpdate);
-        String sql = "DELETE FROM app.\"user\"\n" +
-                "WHERE login = :login\n" +
+        String sql = "UPDATE\n" +
+                "    app.\"user\"\n" +
+                "SET\n" +
+                "    accessible = false\n" +
+                "WHERE\n" +
+                "    login = :login\n" +
                 "    AND dt_update = :old_dt_update;";
         try {
             MapSqlParameterSource params = new MapSqlParameterSource();

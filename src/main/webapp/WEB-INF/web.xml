@@ -8,9 +8,9 @@
         <welcome-file>views/mainPage.jsp</welcome-file>
     </welcome-file-list>
 
-<!--    <listener>-->
-<!--        <listener-class>by.it.academy.homework_1.controller.web.listeners.SessionListener</listener-class>-->
-<!--    </listener>-->
+    <listener>
+        <listener-class>by.it.academy.homework_1.controller.web.listeners.SessionListener</listener-class>
+    </listener>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
