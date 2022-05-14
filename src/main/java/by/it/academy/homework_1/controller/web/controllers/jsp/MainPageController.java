@@ -1,4 +1,4 @@
-package by.it.academy.homework_1.controller.web.controllers;
+package by.it.academy.homework_1.controller.web.controllers.jsp;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

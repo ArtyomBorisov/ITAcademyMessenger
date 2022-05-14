@@ -1,4 +1,4 @@
-package by.it.academy.homework_1.controller.web.controllers;
+package by.it.academy.homework_1.controller.web.controllers.jsp;
 
 import by.it.academy.homework_1.services.api.IStatisticsService;
 import by.it.academy.homework_1.services.api.IUserService;

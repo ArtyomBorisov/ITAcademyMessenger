@@ -1,4 +1,4 @@
-package by.it.academy.homework_1.controller.web.controllers;
+package by.it.academy.homework_1.controller.web.controllers.jsp;
 
 import by.it.academy.homework_1.model.User;
 import by.it.academy.homework_1.services.api.IUserService;
@@ -7,43 +7,35 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 @Controller
-@RequestMapping("/editProfile")
-public class EditProfileController {
+@RequestMapping("/signUp")
+public class SignUpController {
 
     private final IUserService userService;
+    private final String INFORM_KEY = "inf";
+    private final String URL_FORWARD_KEY = "signUp";
 
-    public EditProfileController(IUserService userService) {
+    public SignUpController(IUserService userService) {
         this.userService = userService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index(@SessionAttribute(name = "user", required = false) User user) {
-        if (user == null) {
-            throw new SecurityException("Ошибка безопасности");
-        }
-
-        return "editProfile";
+    public String index() {
+        return URL_FORWARD_KEY;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String update(@SessionAttribute(name = "user", required = false) User user,
+    public String create(@RequestParam(name = "login") String login,
                          @RequestParam(name = "password") String password,
                          @RequestParam(name = "name") String name,
                          @RequestParam(name = "birthday", required = false) String birthdayRaw,
                          HttpSession session,
                          Model model) {
-        if (user == null) {
-            throw new SecurityException("Ошибка безопасности");
-        }
-
-
         LocalDate birthday = null;
         if (birthdayRaw != null) {
             try {
@@ -52,12 +44,16 @@ public class EditProfileController {
             }
         }
 
-        User userUpdate = new User(user.getLogin(), password, name, birthday);
+        User user = new User(login, password, name, birthday);
 
-        this.userService.update(userUpdate, user.getLogin(), user.getLastUpdate());
-
-        session.setAttribute("user", this.userService.get(user.getLogin()));
-        model.addAttribute("inf", "Данные успешно обновлены");
-        return "mainPage";
+        try {
+            this.userService.signUp(user);
+            session.setAttribute("user", user);
+            model.addAttribute(INFORM_KEY, "Аккаунт успешно создан.");
+            return "redirect:/";
+        } catch (IllegalArgumentException e){
+            model.addAttribute(INFORM_KEY, e.getMessage());
+            return URL_FORWARD_KEY;
+        }
     }
 }
